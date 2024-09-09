@@ -1,13 +1,45 @@
 <?php
-use App\Http\Controllers\AutherController;
-//author CRUD
-Route::get('/authors', [AutherContoller::class,'index'])->name('authors');
-Route::get('/authors/create', [AuthorsController::class,'create'])->name('authers.create');
-Route::get('/authors/edit/{auther},' [AuthorController::class,'edit'])->name('authors.edit');
-Route::get('/authors/update/{id}', [AuthorController::class,'update'])->name('authors.update');
-Route::get('/authers/delete/{id}', [AuthorController::class,'destory'])->name('authors.destroy');
-Route::get('author/create', [AutherController::class,'Store'])->name('authors.store');
 
-//publisher
-Route::get('publisher', [PublisherController::class,'index'])->name('publishers');
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\ArtworkController;
+use App\Http\Controllers\SaleController;
+use App\Http\Controllers\ExhibitionController;
+use App\Http\Controllers\ArtistController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+
+// Home route
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
+
+// Authentication routes
+Auth::routes();
+
+// Gallery routes
+Route::resource('galleries', GalleryController::class);
+
+// Artwork routes
+Route::resource('artworks', ArtworkController::class);
+
+// Sale routes
+Route::resource('sales', SaleController::class);
+
+// Exhibition routes
+Route::resource('exhibitions', ExhibitionController::class);
+
+// Artist routes
+Route::resource('artists', ArtistController::class);
+
+// Example of a route for user profile (if applicable)
+Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
+
+// Example of a route for admin dashboard (if applicable)
+Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index');
+
+// Example of a route for contact page
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
 
