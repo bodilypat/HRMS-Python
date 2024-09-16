@@ -16,7 +16,7 @@ class CreateArtworksTable extends Migration
             $table->text('description')->nullable();
             $table->unsignedBigInteger('artist_id'); //Foreing key for artis
             $table->decimal('price', 10, 2)->nullable(); // Price of the artwork
-            $table->integer('created_date')->nullable();
+            $table->integer('creation_date')->nullable();
             $table->string('image_path')->nullable(); // Path to the image file
             $table->enum('available','sold','on loan')->default('avaliable');
             $table->timestamps();
