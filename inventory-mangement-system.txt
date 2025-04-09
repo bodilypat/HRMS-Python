@@ -1,0 +1,68 @@
+gallery-management-system/
+├── app/
+│   ├── Console/                      # Artisan commands (optional)
+│   ├── Exceptions/                   # Exception handling (custom exceptions)
+│   ├── Http/
+│   │   ├── Controllers/              # Controllers (e.g., API endpoints)
+│   │   │   ├── AuthController.php    # Handles authentication (login, registration)
+│   │   │   ├── AdminController.php   # Admin-related CRUD logic
+│   │   │   ├── ArtistController.php  # Artist CRUD operations
+│   │   │   ├── ArtworkController.php # Artwork CRUD operations
+│   │   │   ├── ExhibitionController.php # Exhibition CRUD operations
+│   │   │   ├── GalleryController.php # Handles gallery views
+│   │   │   ├── ReportController.php  # Sales and visitor reports
+│   │   │   ├── SalesController.php   # Sales and purchases
+│   │   │   ├── VisitorController.php # Manages visitor data
+│   │   │   └── UserController.php    # User-related logic (CRUD operations)
+│   │   ├── Middleware/               # Authentication, authorization middleware
+│   │   │   └── AuthMiddleware.php    # Custom authentication middleware
+│   │   └── Requests/                 # Form request validation (e.g., for input validation)
+│   ├── Models/                       # Models (e.g., Artist, Artwork, Exhibition)
+│   │   ├── Artist.php                # Artist model (linked to artists table)
+│   │   ├── Artwork.php               # Artwork model (linked to artworks table)
+│   │   ├── Exhibition.php            # Exhibition model (linked to exhibitions table)
+│   │   ├── Purchase.php              # Purchase model (linked to purchases table)
+│   │   ├── Role.php                  # Role model (if using role-based access control)
+│   │   ├── Sales.php                 # Sales model (linked to sales table)
+│   │   ├── User.php                  # User model (linked to users table)
+│   │   └── Visitor.php               # Visitor model (linked to visitors table)
+│   └── Providers/                    # Service providers
+├── bootstrap/                        # Bootstrap folder (e.g., autoloading)
+├── config/
+│   ├── app.php                       # Application-wide config settings
+│   ├── database.php                  # Database configuration (e.g., DB connection, migrations)
+│   ├── services.php                  # Third-party service API keys, etc.
+│   └── auth.php                      # Authentication configuration
+├── database/
+│   ├── factories/                    # Factories for test data or seeding
+│   ├── migrations/                   # Database migration files
+│   │   ├── 2025_01_01_000000_create_artists_table.php  # Migration for artists table
+│   │   ├── 2025_01_01_000001_create_artworks_table.php # Migration for artworks table
+│   │   ├── 2025_01_01_000002_create_exhibitions_table.php # Migration for exhibitions table
+│   │   └── 2025_01_01_000003_create_purchases_table.php # Migration for purchases table
+│   └── seeds/                        # Seeders to populate initial data (e.g., Admin user, etc.)
+│       └── DatabaseSeeder.php        # Seeder file to call all other seeders
+├── public/
+│   ├── assets/                       # Public files like images, fonts, JS, and CSS
+│   ├── index.php                     # Entry point (handled by Laravel’s routing system)
+│   └── .htaccess                     # Apache-specific config (if using Apache)
+├── resources/
+│   ├── lang/                         # Localization files (if needed)
+│   ├── views/                        # Blade templates (front-end views)
+│   │   ├── admin/                    # Admin dashboard views
+│   │   │   ├── dashboard.blade.php   # Admin dashboard view
+│   │   │   ├── artist.blade.php      # Artists management view
+│   │   │   ├── artwork.blade.php     # Artwork management view
+│   │   │   └── sales.blade.php       # Sales management view
+│   │   ├── gallery/                  # Views for gallery frontend
+│   │   │   ├── gallery-dashboard.blade.php # Gallery dashboard for visitors
+│   │   │   ├── exhibition.blade.php  # Exhibition view for visitors
+│   │   │   └── purchase.blade.php    # Purchase management view
+│   └── js/                           # Custom JavaScript for the frontend
+├── routes/
+│   ├── api.php                       # API routes for gallery management (CRUD operations)
+│   ├── web.php                       # Web routes for views, front-end logic, etc.
+├── storage/                          # Storage for logs, session data, uploaded files
+├── tests/                            # Tests for unit, feature, etc.
+├── .gitignore                        # Git ignore file
+└── README.md                         # Project documentation (update accordingly)
