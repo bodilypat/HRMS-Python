@@ -1,5 +1,3 @@
-# Backend/app/__init__.py
-
 from flask import Flask
 from flask_sqlalchemy import SQLALchemy
 from flask_migrate import Migrate 
@@ -25,3 +23,4 @@ def create_app():
 	 app.register_blueprint(employee_bp, url_prefix='api/employees')
 	 
 	 return app
+	 
