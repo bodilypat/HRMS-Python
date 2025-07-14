@@ -9,7 +9,7 @@ CREATE TABLE Employees (
 	last_name VARCHAR(100),
 	email VARCHAR(150) UNIQUE,
 	phone VARCHAR(20),
-	date_of_birt DATE,
+	date_of_birth DATE,
 	hire_date DATE,
 	department_id INT,
 	position_id INT,
