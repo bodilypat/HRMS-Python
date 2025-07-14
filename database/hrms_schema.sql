@@ -15,12 +15,12 @@ CREATE TABLE Employees (
 	position_id INT,
 	salary DECIMAL(10,2),
 	status VARCHAR(20),
-	FOREIGN KEY (department_id) REFERENCES Departments(deparment_id),
+	FOREIGN KEY (department_id) REFERENCES Departments(department_id),
 	FOREIGN KEY (position_id) REFERENCES Job_Positions(position_id)
 );
 
 CREATE TABLE Departments (
-	depart_id INT PRIMARY KEY AUTO_INCREMENT,
+	department_id INT PRIMARY KEY AUTO_INCREMENT,
 	name VARCHAR(100),
 	manager_id INT,
 	FOREIGN KEY (manager_id) REFERENCES Employees(employee_id)
@@ -83,7 +83,7 @@ CREATE TABLE Training_Courses (
 	course_name VARCHAR(100),
 	description TEXT,
 	duration_hour INT,
-	require BOOLEAN
+	required BOOLEAN
 );
 
 CREATE TABLE Training_Records (
