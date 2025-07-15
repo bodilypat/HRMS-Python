@@ -11,21 +11,31 @@ Full-Stack-HRMS-Directory-Structure
 │   │   │   ├── department.py
 │   │   │   ├── job_position.py
 │   │   │   ├── attendance.py
+│   │   │   ├── leave_request.py
+│   │   │   ├── payroll.py
 │   │   │   ├── role.py
 │   │   │   ├── user_role.py
-│   │   │   ├── leave_request.js
-│   │   │   ├── payroll.py
-│   │   │   ├── training_course.py
-│   │   │   ├── training_record.py
 │   │   │   ├── permission.py
-│   │   │   └── role_permission.py  
+│   │   │   ├── role_permission.py
+│   │   │   ├── training_course.py
+│   │   │   └── training_record.py  
 │   │   │
 │   │   ├── routes/                             # API route handlers
 │   │   │   ├── __init__.py
-│   │   │   ├── auth_routes.py
-│   │   │   ├── employee_route.py
-│   │   │   ├── payroll_routes.py
-│   │   │   └── attendance_routes.py  
+│   │   │   ├── auth/
+│   │   │   │   └── routes.py
+│   │   │   ├── employee/
+│   │   │   │   └── routes.py
+│   │   │   ├── payroll/
+│   │   │   │   └── routes.py
+│   │   │   ├── attendance/
+│   │   │   │   └── routes.py
+│   │   │   ├── department/
+│   │   │   │   └── routes.py
+│   │   │   ├── roles/
+│   │   │   │   └── routes.py
+│   │   │   └── leave/ 
+│   │   │       └── routes.py 
 │   │   │
 │   │   ├── controllers/                        # Business logic layer
 │   │   │   ├── __init__.py
