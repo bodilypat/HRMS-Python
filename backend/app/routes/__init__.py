@@ -1,21 +1,24 @@
 # Backend/app/routes/__init__.py
 
-from .employee_routes import employee_bp
-from .department_routes import department_bp
-from .role_routes import role_bp
-from .attendance_routes import attendance_bp
-from .leave_routes import leave_bp
-from .payroll_routes import payroll_bp
-from .training_routes import training_bp
-from .permission_routes import permission_bp
+from app.routes.auth.routes import auth_bp
+from app.routes.employee.routes import employee_bp
+from app.routes.payroll.routes import payroll_bp
+from app.routes.attendance.routes import attendance_bp
+from app.routes.department.routes import department_bp
+from app.routes.roles.routes import role_bp
+from app.routes.leave_routes import leave_bp
 
 blueprints = [
+    (auth_bp,'/api/auth')
 	(employee_bp, '/api/employees'),
-	(department_bp, '/api/departments'),
-	(role_bp,'/api/roles'),
+	(payroll_bp, '/api/payroll'),
 	(attendance_bp,'/api/attendance'),
-	(leave_bp,'/api/leaves'),
-	(payroll_bp,'/api/payroll'),
-	(training_bp,'/api/training'),
-	(permission_bp,'/api/permissions')
+	(department_bp,'/api/departments'),
+	(role_bp,'/api/roles'),
+	(leave_bp,'/api/leaves'),	
 ]
+
+def register_blueprints(app):
+    for blueprint, prefix in blueprints:
+        app.register_blueprint(blueprint, url_prefix=prefix)
+        
