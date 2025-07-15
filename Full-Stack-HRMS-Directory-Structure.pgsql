@@ -18,10 +18,10 @@ Full-Stack-HRMS-Directory-Structure
 │   │   │   └── training.py  
 │   │   │
 │   │   ├── routes/                             # API route handlers
-│   │   │ 	├── __init__.py
-│   │   │ 	├── auth_routes.py
-│   │   │ 	├── employee_route.py
-│   │   │ 	├── payroll_routes.py
+│   │   │   ├── __init__.py
+│   │   │   ├── auth_routes.py
+│   │   │   ├── employee_route.py
+│   │   │   ├── payroll_routes.py
 │   │   │   └── attendance_routes.py  
 │   │   │
 │   │   ├── controllers/                        # Business logic layer
