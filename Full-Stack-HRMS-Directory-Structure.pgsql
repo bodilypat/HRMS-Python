@@ -25,9 +25,9 @@ Full-Stack-HRMS-Directory-Structure
 │   │   │   └── attendance_routes.py  
 │   │   │
 │   │   ├── controllers/                        # Business logic layer
-│   │   │ 	├── __init__.py
-│   │   │ 	├── employee_controller.py
-│   │   │ 	├── payroll_controller.py
+│   │   │   ├── __init__.py
+│   │   │   ├── employee_controller.py
+│   │   │   ├── payroll_controller.py
 │   │   │   └── training_controller.py  
 │   │   │
 │   │   ├── services/                           # Utilities / helpers / external services
