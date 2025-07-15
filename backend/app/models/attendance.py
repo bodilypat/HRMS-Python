@@ -1,3 +1,5 @@
+# Backend/app/models/attendance.py
+
 from . import db
 
 class Attendance(db.Model):
@@ -10,8 +12,8 @@ class Attendance(db.Model):
 	check_out = db.Column(db.Time)
 	
 	# Relationship
-	employee = db.relationship('Employee', backref='attendance', lazy=True)
+	employee = db.relationship('Employee', backref=db.backref('attendance_records', lazy="dynamic'))
 	
-	def __refr__(self):
-		return f"<Attendance employee_id={self.employee_id} date={self.date}>"
+	def __repr__(self):
+		return f"<Attendance employee_id={self.employee_id}, date={self.date}>"
 		
