@@ -31,24 +31,24 @@ Full-Stack-HRMS-Directory-Structure
 │   │   │   └── training_controller.py  
 │   │   │
 │   │   ├── services/                           # Utilities / helpers / external services
-│   │   │ 	├── __init__.py
-│   │   │ 	├── email_service.py
-│   │   │ 	├── auth_service.py
+│   │   │   ├── __init__.py
+│   │   │   ├── email_service.py
+│   │   │   ├── auth_service.py
 │   │   │   └── pdf_generator.py  
 │   │   │
 │   │   ├── schemas/                            # Pydantic schemas (validation & serialization)
-│   │   │ 	├── __init__.py
-│   │   │ 	├── employee_schema.py
-│   │   │ 	├── payroll_schema.py
+│   │   │   ├── __init__.py
+│   │   │   ├── employee_schema.py
+│   │   │   ├── payroll_schema.py
 │   │   │   └── auth_schema.py 
 │   │   │ 
 │   │   ├── middleware/                         # Customer middlewares
-│   │   │ 	├── __init__.py
+│   │   │   ├── __init__.py
 │   │   │   └── auth_middleware.py  
 │   │   │
 │   │   ├── auth/                               # Authentication logic
-│   │   │ 	├── __init__.py
-│   │   │ 	├── jwt_handler.py
+│   │   │   ├── __init__.py
+│   │   │   ├── jwt_handler.py
 │   │   │   └── user_loader.py  
 │   │   │
 │   │   ├── templates/
