@@ -1,55 +1,60 @@
 Full-Stack-HRMS-Directory-Structure
 │
 ├── backend/                                 
-│   ├── app/                             
-│   │   ├── __init.py
-│   │   ├── config.py
-│   │   ├── models/
+│   ├── app/                                    # Main Application  
+│   │   ├── __init.py                           # App factory function
+│   │   ├── config.py                           # Configuration settings(Dev, Prod, Test)
+│   │   │
+│   │   ├── models/                             # SQLALchemy ORM models
 │   │   │ 	├── __init__.py
 │   │   │ 	├── employee.py
 │   │   │ 	├── department.py
 │   │   │ 	├── job_position.py
 │   │   │ 	├── attendance.py
-│   │   │ 	├── leave_request.pymain.js
+│   │   │ 	├── leave_request.js
 │   │   │ 	├── payroll.py
 │   │   │ 	├── role.py
 │   │   │ 	├── permission.py
 │   │   │   └── training.py  
-│   │   ├── routes/
+│   │   │
+│   │   ├── routes/                             # API route handlers
 │   │   │ 	├── __init__.py
 │   │   │ 	├── auth_routes.py
 │   │   │ 	├── employee_route.py
 │   │   │ 	├── payroll_routes.py
-│   │   │   └── attendance.py  
-│   │   ├── controllers/
+│   │   │   └── attendance_routes.py  
+│   │   │
+│   │   ├── controllers/                        # Business logic layer
 │   │   │ 	├── __init__.py
 │   │   │ 	├── employee_controller.py
 │   │   │ 	├── payroll_controller.py
-│   │   │ 	├── payroll_routes.py
 │   │   │   └── training_controller.py  
-│   │   ├── services/
+│   │   │
+│   │   ├── services/                           # Utilities / helpers / external services
 │   │   │ 	├── __init__.py
 │   │   │ 	├── email_service.py
-│   │   │ 	├── auth_serrvice.py
+│   │   │ 	├── auth_service.py
 │   │   │   └── pdf_generator.py  
-│   │   ├── schemas/
+│   │   │
+│   │   ├── schemas/                            # Pydantic schemas (validation & serialization)
 │   │   │ 	├── __init__.py
 │   │   │ 	├── employee_schema.py
 │   │   │ 	├── payroll_schema.py
-│   │   │   └── auth_schema.py  
-│   │   ├── middleware/
+│   │   │   └── auth_schema.py 
+│   │   │ 
+│   │   ├── middleware/                         # Customer middlewares
 │   │   │ 	├── __init__.py
 │   │   │   └── auth_middleware.py  
-│   │   ├── auth/
+│   │   │
+│   │   ├── auth/                               # Authentication logic
 │   │   │ 	├── __init__.py
 │   │   │ 	├── jwt_handler.py
 │   │   │   └── user_loader.py  
+│   │   │
 │   │   ├── templates/
 │   │   └── static/
 │   │
-│   ├── migrations/                                              
-│   │   ├── forms.py       
-│   │   └── admin.py                       
+│   ├── migrations/                                                                  
 │   │
 │   ├── tests/                             
 │   │   ├── test_employee.py                         
@@ -62,8 +67,6 @@ Full-Stack-HRMS-Directory-Structure
 │   ├── run.py                             
 │   ├── requirements.txt                         
 │   ├── .env                                                             
-│   │   └── employees/  
-│   │       └── employee_list.html
 │   ├── .flaskenv                            
 │   ├── .gitinore
 │   └── README.md
