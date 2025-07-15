@@ -1,9 +1,9 @@
 # Backend/app/models/__init__.py
 
-from flask_sqlalchemy import SQLALchemy
+from flask_sqlalchemy import SQLAlchemy
 
 # Initialize SQLALchemy 
-db = SQLALchemy()
+db = SQLAlchemy()
 
 # Import all model classes so they are registered 
 from .employee import Employee
@@ -28,7 +28,6 @@ __all__ = [
 	"Role",
 	"UserRole",
 	"Attendance",
-	"Payroll",
 	"LeaveRequest",
 	"Payroll",
 	"TrainingCourse",
