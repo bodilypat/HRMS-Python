@@ -12,7 +12,7 @@ class Depertment(db.Model):
 	
 	# Relationshiips 
 	manager = db.relationship('Empolyee', backref='managed_departments', foreign_keys=[manager_id]
-	employees = db.relationship('Employee', backref=department', lazy=True)
+	employees = db.relationship('Employee', backref='department', lazy=True)
 	
 	def __ref__(self):
 		return f"<Department {self.name}>"
