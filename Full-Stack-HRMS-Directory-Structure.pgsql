@@ -6,15 +6,15 @@ Full-Stack-HRMS-Directory-Structure
 │   │   ├── config.py                           # Configuration settings(Dev, Prod, Test)
 │   │   │
 │   │   ├── models/                             # SQLALchemy ORM models
-│   │   │ 	├── __init__.py
-│   │   │ 	├── employee.py
-│   │   │ 	├── department.py
-│   │   │ 	├── job_position.py
-│   │   │ 	├── attendance.py
-│   │   │ 	├── leave_request.js
-│   │   │ 	├── payroll.py
-│   │   │ 	├── role.py
-│   │   │ 	├── permission.py
+│   │   │   ├── __init__.py
+│   │   │   ├── employee.py
+│   │   │   ├── department.py
+│   │   │   ├── job_position.py
+│   │   │   ├── attendance.py
+│   │   │   ├── leave_request.js
+│   │   │   ├── payroll.py
+│   │   │   ├── role.py
+│   │   │   ├── permission.py
 │   │   │   └── training.py  
 │   │   │
 │   │   ├── routes/                             # API route handlers
