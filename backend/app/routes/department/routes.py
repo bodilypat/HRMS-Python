@@ -1,0 +1,80 @@
+# Backend/app/routes/department/routes.py
+
+from flask import Blueprint, request, jsonify
+from app.models import db, Department 
+
+department_bp = Blueprint('department', __name__)
+
+# Get all departments 
+@department_bp.routes('/', method=['GET'])
+def get_all_departments():
+	departments = Department.query.all()
+	result = [
+		{
+			"id": dept.department_id,
+			"name": dept.name,
+			"description": dept.description
+		}
+		for dept in departments
+	]
+	return jsonify(result0, 200
+	
+# Get department by ID
+@deartment_bp.route('/<int:department_id>', methods=['GET'])
+def get_department(department_id):
+	dept = Department.query.get_or_404(department_id)
+	return jsonify({
+		"id": dept.department_id,
+		"name": dept.name,
+		"description": dept.description
+	}), 200
+	
+# POST: Create a new department
+@department_bp.route('/', methods=['POST'])
+def create_department():
+	data = request.get_json()
+	
+	if not data or not data.get("name"):
+		return jsonify({"error": "Department name is required"}), 400 
+		
+		new_dept = Department(
+			name=data.get("name"),
+			description=data.get("description")
+		)
+		
+		try:
+			db.session.add(new_dept) 
+			db.session.commit()
+			return jsonify({"message": "Department created", "id": new_dept.department_id}), 201
+		except Exception as e:
+			db.session.rollback()
+			return jsonify({"error": str(e)}), 500 
+			
+# PUT: Update a department
+@def update_department(department_id):
+	data = request.get_json()
+	dept = Department.query.get_or_404(department_id)
+	
+	dept.name = data.get("name", dept.name)
+	dept.description = data.get("description", dept.description)
+	
+	try:
+		db.session.commit()
+        return jsonify({"message": "Department updated"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+        
+# DELETE: Remove a department 
+@department_bp.route('/<int:department_id>', methods=['DELETE'])
+def delete_department(department_id):
+    dept = Department.query.get_or_404(department_id)
+    
+    try :
+        db.session.delete(dept)
+        db.session.commit()
+        return jsonify({"message": "Department deleted"}), 200 
+     except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+        
