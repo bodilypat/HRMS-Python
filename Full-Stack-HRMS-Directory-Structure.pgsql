@@ -11,11 +11,14 @@ Full-Stack-HRMS-Directory-Structure
 │   │   │   ├── department.py
 │   │   │   ├── job_position.py
 │   │   │   ├── attendance.py
+│   │   │   ├── role.py
+│   │   │   ├── user_role.py
 │   │   │   ├── leave_request.js
 │   │   │   ├── payroll.py
-│   │   │   ├── role.py
+│   │   │   ├── training_course.py
+│   │   │   ├── training_record.py
 │   │   │   ├── permission.py
-│   │   │   └── training.py  
+│   │   │   └── role_permission.py  
 │   │   │
 │   │   ├── routes/                             # API route handlers
 │   │   │   ├── __init__.py
