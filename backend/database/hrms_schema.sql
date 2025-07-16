@@ -30,10 +30,10 @@ CREATE TABLE IF NOT EXISTS Employees (
 	FOREIGN KEY (position_id) REFERENCES Job_Positions(position_id)
 );
 
---Now add manager_id with ALTER TABLE to avoid circular REFERENCES
+-- Add manager_id to Departments (avoiding circular FK at table creation)
 ALTER TABLE Departments
-ADD manager_id INT,
-ADD FOREIGN KEY (manager_id) REFERENCES Employees(employee_id)
+ADD COLUMN manager_id INT,
+ADD FOREIGN KEY (manager_id) REFERENCES Employees(employee_id);
 
 CREATE TABLE IF NOT EXISTS Roles (
 	role_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -118,6 +118,8 @@ CREATE TABLE IF NOT EXISTS Role_Permissions (
 );
 
 """
+
+/* Write to SQL file */
 	with open("hrms_schema.sql", "w") as file:
 		file.write(schema_sql)
 	print("SQL file created: hrms_schema.sql")
