@@ -1,0 +1,42 @@
+# app/config.py
+
+import os
+from dotenv import load_dotenv
+
+# load environment veriable from .env file 
+load_dotenv()
+
+class config:
+	SECRET_KEY = os.getenv("SECRET_KEY", "default-secret-key")
+	SQLALCHEMY_DATABASE_URI == os.getenv("DATABASE_URL", "sqlite://hrms.db")
+	SQLALCHEMY_TRACK_MODIFICATIONS = False 
+	
+	# Optional: JWT, Mail, etc.
+	JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "super-secret")
+	MAIL_SERVER = os.getenv("MAIL_SERVER", "localhost")
+	MAIL_PORT = int(os.getenv("MAIL_PORT", 25))
+	MAIL_USERNAME = os.getenv("MAIL_USERNAME")
+	MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
+	MAIL_USE_TLS = os.getenv("MAIL_USE_TLS", "false").lower() in ["true", "1"]
+	MAIL_USE_SSL = os.getenv("MAIL_USE_SSL", "false").lower() in ["true", "1"]
+	
+class DevelopmentConfig(Config):
+	DEBUG = True 
+	
+class TestingConfig(Config):
+	TESTING = True 
+	SQLALCHEMY_DATABASE_URI = "sqlite://:memory:" # In-memory test DB
+	WTF_CRSF_ENABLED = False 
+	
+class ProductConfig(Config):
+	DEBUG = False
+	TESTING = False 
+	
+# Dictionary for app config selection 
+
+config_by_name = {
+	"development": DevelopmentConfig,
+	"testing": TestingConfig,
+	"production": ProductionConfig
+}
+
