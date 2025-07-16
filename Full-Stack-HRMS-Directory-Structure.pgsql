@@ -20,7 +20,7 @@ Full-Stack-HRMS-Directory-Structure
 │   │   │   ├── training_course.py
 │   │   │   └── training_record.py  
 │   │   │
-│   │   ├── routes/                             # API route handlers
+│   │   ├── routes/                             # Route handler (Blueprint)
 │   │   │   ├── __init__.py
 │   │   │   ├── auth/
 │   │   │   │   └── routes.py
@@ -49,7 +49,7 @@ Full-Stack-HRMS-Directory-Structure
 │   │   │   ├── auth_service.py
 │   │   │   └── pdf_generator.py  
 │   │   │
-│   │   ├── schemas/                            # Pydantic schemas (validation & serialization)
+│   │   ├── schemas/                            # Pydantic schemas (for validation / serialization)
 │   │   │   ├── __init__.py
 │   │   │   ├── employee_schema.py
 │   │   │   ├── payroll_schema.py
@@ -64,20 +64,21 @@ Full-Stack-HRMS-Directory-Structure
 │   │   │   ├── jwt_handler.py
 │   │   │   └── user_loader.py  
 │   │   │
-│   │   ├── templates/
-│   │   └── static/
+│   │   ├── templates/                          
+│   │   └── static/                             # Static files (CSS, JS, image
 │   │
-│   ├── migrations/                                                                  
+│   ├── migrations/                             # Alemlic or Flask-Migrate migration files                                      
 │   │
-│   ├── tests/                             
+│   ├── tests/                                  # Unit and integration tests
+│   │   ├── __init__.py
 │   │   ├── test_employee.py                         
 │   │   ├── test_auth.py                                       
 │   │   └── test_payroll.py  
 │   │
 │   ├── database/                                    
-│   │   └── hrm_schemal.sql  
+│   │   └── hrm_schemal.sql                     # SQL schema file
 │   │ 
-│   ├── run.py                             
+│   ├── run.py                                  # Entry point to start app 
 │   ├── requirements.txt                         
 │   ├── .env                                                             
 │   ├── .flaskenv                            
