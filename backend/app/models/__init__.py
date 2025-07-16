@@ -1,38 +1,19 @@
 # Backend/app/models/__init__.py
 
-from flask_sqlalchemy import SQLAlchemy
+from .core.employee import Employee
+from .core.department import Department 
+from .core.job_position import JobPosition
 
-# Initialize SQLALchemy 
-db = SQLAlchemy()
+from .attendance.attendance import Attendance 
+from .attendance.leave_request import LeaveRequest
 
-# Import all model classes so they are registered 
-from .employee import Employee
-from .department import Department 
-from .job_position import JobPosition
-from .role import Role 
-from .user_role import UserRole
-from .attendance import Attendance 
-from .leave_request import LeaveRequest 
-from .payroll import Payroll
-from .training_course import TrainingCourse
-from .training_record import TrainingRecord 
-from .permission import Permission
-from .role_permission import RolePermission
+from .payroll.payroll import Payroll
 
-# Optional List __all__for wildcard imports
-__all__ = [
-	"db",
-	"Employee",
-	"Department",
-	"JobPosition",
-	"Role",
-	"UserRole",
-	"Attendance",
-	"LeaveRequest",
-	"Payroll",
-	"TrainingCourse",
-	"TrainingRecord",
-	"Permission",
-	"RolePermission",
-]
+from .auth.role import Role 
+from .auth.user_role import UserRole 
+from .auth.permission import Permission 
+from .auth.role_permission import RolePermission 
+
+from .training.training_course import TrainingCourse 
+from .training.training_record import TrainingRecord 
 
