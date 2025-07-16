@@ -1,4 +1,4 @@
-# Backend/app/models/employee.py
+# Backend/app/models/core/employee.py
 
 from .import db 
 class Employee(db.model):
