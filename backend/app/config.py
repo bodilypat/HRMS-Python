@@ -1,4 +1,4 @@
-# app/config.py
+# Backend/app/config.py
 
 import os
 from dotenv import load_dotenv
@@ -6,13 +6,15 @@ from dotenv import load_dotenv
 # load environment veriable from .env file 
 load_dotenv()
 
-class config:
+class Config:
 	SECRET_KEY = os.getenv("SECRET_KEY", "default-secret-key")
 	SQLALCHEMY_DATABASE_URI == os.getenv("DATABASE_URL", "sqlite://hrms.db")
 	SQLALCHEMY_TRACK_MODIFICATIONS = False 
 	
-	# Optional: JWT, Mail, etc.
+	# Optional: JWT Configuration
 	JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "super-secret")
+    
+    # Optional: Mail Configuration
 	MAIL_SERVER = os.getenv("MAIL_SERVER", "localhost")
 	MAIL_PORT = int(os.getenv("MAIL_PORT", 25))
 	MAIL_USERNAME = os.getenv("MAIL_USERNAME")
@@ -32,7 +34,7 @@ class ProductConfig(Config):
 	DEBUG = False
 	TESTING = False 
 	
-# Dictionary for app config selection 
+# Configuration map
 
 config_by_name = {
 	"development": DevelopmentConfig,
