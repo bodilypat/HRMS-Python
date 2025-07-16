@@ -7,19 +7,25 @@ Full-Stack-HRMS-Directory-Structure
 │   │   │
 │   │   ├── models/                             # SQLALchemy ORM models
 │   │   │   ├── __init__.py
-│   │   │   ├── employee.py
-│   │   │   ├── department.py
-│   │   │   ├── job_position.py
-│   │   │   ├── attendance.py
-│   │   │   ├── leave_request.py
-│   │   │   ├── payroll.py
-│   │   │   ├── role.py
-│   │   │   ├── user_role.py
-│   │   │   ├── permission.py
-│   │   │   ├── role_permission.py
-│   │   │   ├── training_course.py
-│   │   │   └── training_record.py  
-│   │   │
+│   │   │   ├── __base_models.py
+│   │   │   ├── core/
+│   │   │   │   ├── employee.py
+│   │   │   │   ├── department.py
+│   │   │   │   └── job_position.py
+│   │   │   ├── attendance/
+│   │   │   │   ├── attendance.py
+│   │   │   │   └── leave_request.py
+│   │   │   ├── payroll/
+│   │   │   │   └── payroll.py
+│   │   │   ├── auth/
+│   │   │   │   ├── role.py
+│   │   │   │   ├── user_role.py
+│   │   │   │   ├── permission.py
+│   │   │   │   └── role_permission.py
+│   │   │   ├── training/
+│   │   │   │   ├── training_course.py
+│   │   │   │   └── training_record.py
+│   │   │   │ 
 │   │   ├── routes/                             # Route handler (Blueprint)
 │   │   │   ├── __init__.py
 │   │   │   ├── auth/
