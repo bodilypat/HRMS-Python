@@ -2,18 +2,16 @@
 schema_sql = """
 -- HRMS Database Schema 
 
-CREATE TABLE IF NOT EXISTS Departments (
-	depart_id INT PRIMARY KEY AUTO_INCREMENT,
-	name VARCHAR(100),
-	manager_id INT,
-	FOREIGN KEY (manager_id) REFERENCES Employees(employee_id)
-);
-
 CREATE TABLE IF NOT EXISTS Job_Positions (
 	position_id INT PRIMARY KEY AUTO_INCREMENT,
 	title VARCHAR(100),
 	description TEXT,
 	level VARCHAR(50)
+);
+
+CREATE TABLE IF NOT EXISTS Departments (
+	depart_id INT PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(100),
 );
 
 CREATE TABLE IF NOT EXISTS Employees (
@@ -32,10 +30,15 @@ CREATE TABLE IF NOT EXISTS Employees (
 	FOREIGN KEY (position_id) REFERENCES Job_Positions(position_id)
 );
 
+--Now add manager_id with ALTER TABLE to avoid circular REFERENCES
+ALTER TABLE Departments
+ADD manager_id INT,
+ADD FOREIGN KEY (manager_id) REFERENCES Employees(employee_id)
+
 CREATE TABLE IF NOT EXISTS Roles (
 	role_id INT PRIMARY KEY AUTO_INCREMENT,
 	role_name VARCHAR(100) UNIQUE,
-	description TEXT,
+	description TEXT
 );
 
 CREATE TABLE IF NOT EXISTS User_Roles (
@@ -73,7 +76,7 @@ CREATE TABLE IF NOT EXISTS Payroll (
 	base_salary DECIMAL(10, 2),
 	deductions DECIMAL(10, 2),
 	bonuses DECIMAL(10, 2),
-	net_pay DECIMAL(10, 2) 
+	net_pay DECIMAL(10, 2), 
 	FOREIGN KEY (employee_id) REFERENCES Employees(employee_id)
 );
 
@@ -103,7 +106,7 @@ CREATE TABLE IF NOT EXISTS Training_Records (
 CREATE TABLE IF NOT EXISTS Permissions (
 	role_permission_id INT PRIMARY KEY AUTO_INCREMENT,
 	permission_name VARCHAR(100),
-	description TEXT,
+	description TEXT
 );
 
 CREATE TABLE IF NOT EXISTS Role_Permissions (
