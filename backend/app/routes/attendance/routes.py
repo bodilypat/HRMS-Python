@@ -1,4 +1,4 @@
-# Backend/app/routes/attendance/routes.py
+# Backend/app/routes/attendance/api.py
 
 from flask import Blueprint, request, jsanify
 from app.models import db, Attendance 
