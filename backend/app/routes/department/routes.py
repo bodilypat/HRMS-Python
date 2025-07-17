@@ -1,4 +1,4 @@
-# Backend/app/routes/department/routes.py
+# Backend/app/routes/department/api.py
 
 from flask import Blueprint, request, jsonify
 from app.models import db, Department 
