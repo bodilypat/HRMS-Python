@@ -1,4 +1,4 @@
-# backend/app/models/leave_request.py
+# backend/app/models/attendance/leave_request.py
 
 from . import db
 
