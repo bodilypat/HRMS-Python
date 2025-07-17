@@ -1,3 +1,5 @@
+# Backend/app/models/auth/user_role.py
+
 from . import db
 
 class UserRole(db.Model):
