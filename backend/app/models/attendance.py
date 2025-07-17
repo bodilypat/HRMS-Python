@@ -1,4 +1,4 @@
-# Backend/app/models/attendance.py
+# Backend/app/models/attendance/attendance.py
 
 from . import db
 
