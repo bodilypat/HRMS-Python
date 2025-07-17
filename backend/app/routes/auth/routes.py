@@ -1,4 +1,4 @@
-# Backend/app/routes/auth/routes.py
+# Backend/app/routes/auth/api.py
 
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash import jwt
