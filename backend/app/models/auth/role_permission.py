@@ -1,4 +1,4 @@
-# backend/app/models/role_permission.py
+# backend/app/models/auth/role_permission.py
 
 from . import db
 
