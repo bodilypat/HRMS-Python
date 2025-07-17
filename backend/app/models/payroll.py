@@ -1,4 +1,4 @@
-# backend/app/models/payroll.py
+# backend/app/models/payroll/payroll/payroll.py
 
 from . import db 
 class Payroll(db.Model):
