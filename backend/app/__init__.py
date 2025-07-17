@@ -1,6 +1,7 @@
 # Backend/app/__init__.py
 
 import os 
+import logging
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -14,7 +15,10 @@ db = SQLAlchemy()
 migrate = Migrate()
 
 def create_app():
-
+    """Application factory function"""
+    
+    app = Flask(__name__)
+    
     # Configuration
     
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///db.sqlite3')
@@ -30,8 +34,10 @@ def create_app():
     app.register_blueprint(employee_bp, url_prefix='/api/employees')
     
     # Log basic startup info 
-    print(f"[INFO] App started in {os.getenv('FLASK_ENV', 'development')} mode")
-    print(f"[INFO] Database connected: {app.config['SQLALCHEMY_DATABASE_URI']}")
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(__name__)
+    logger.info(f"App started in {os.getenv('FLASK_ENV', 'development')} mode")
+    logger.info(f"Database connected: {app.config['SQLALCHEMY_DATABASE_URI']}")
     
     return app
     
