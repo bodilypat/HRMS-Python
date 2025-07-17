@@ -1,18 +1,18 @@
-# backend/app/models/permission.py
+# backend/app/models/auth/permission.py
 
-form . import db
+from app import db
 
-classs Permission(db_model):
-	__tablename__ = 'permissions'
-	
-	permission_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-	permission_name = db.Column(db.String(100), nullable=False, unique=True)
-	description = db.Column(db.Text)
-	
-	# Relationships 
-	role_permissions = db.relationship('RolePermission', backref='permission', lazy=True)
-	
-	def __repf__(self):
-		return f"<Permission {self.permission_name}>"
-		
-		
+class Permission(db.Model):
+    """Represents a permission that can be assigned to a role."""
+    
+    __tablename__ ='permissions'
+    
+    permission_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    permission_name = db.Column(db.String(100), nullable=False, unique=True)
+    description = db.Column(db.Text)
+    
+    # Relationships 
+    role_permissions = db.relationship('RolePermission', backref='permission', lazy=True)
+    
+    def __repr__(self):
+        return f"<Permission permission_name='{self.permission_name}'>"
