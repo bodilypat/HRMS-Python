@@ -1,4 +1,4 @@
-# backend/app/models/training_course.py
+# backend/app/models/training/training_course.py
 
 from . import db
 
