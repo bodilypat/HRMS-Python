@@ -1,4 +1,4 @@
-# backend/app/models/job_position.py
+# backend/app/models/core/job_position.py
 
 from . import db
 
