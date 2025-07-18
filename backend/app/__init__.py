@@ -20,41 +20,37 @@ def create_app():
     
     app = Flask(__name__)
     
-    # Configuration
+    # Load configuration
+    config_name = config_name or os.getenv('FLASK_ENV', 'development')
+    config_module = f"app.config.{config_name.capitalize()}Config"
+    app.config.form_object(config_module)
     
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///db.sqlite3')
-    app.config['SQLALCHEMY_TRACK_MODIFICAIONS'] = False 
-    app.config['SECRET_KEY'] = os.getenv['SECRET_KEY', 'default_key')
-    
-    # Initialize extensions with the app
+    # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
-    CORS(app) # Optional: allow cross-origin requests
+    CORS(app)
     
-    # Register Blueprints 
-    register_blueprints(app)
-
-    # Setup Logging
+    # Import models so alembic can detect them
+    from app.models import *
+    
+    # Register Blueprints
+    register_blueprint(app)
+    
+    # Setup logging 
     setup_logging(app)
     
-    # Log basic startup info 
-    """ Register all application blueprints"""
-    from app.routes.employee_routes import employee_bp
-    app.register_blueprint(employee_bp, url_prefix='/api/employees')
-    # Future: register more blueprint here 
-    # from app.routes.department_routes import department_bp
-    # app.register_blueprint(department_bp, url_prefix='/api/departments')
-    
-    def setup_logging(app):
-        """Configure logging"""
-        log_level = logging.DEBUG if app.config.get("ENV") == "development" else logging.INFO
-        logging.basicConfig(level=log_level)
-        logger = logging.getLogger(__name__)
-        
-        logger.info(f"Environment: {app.config.get('ENV', 'development')}")
-        logger.ingo(f"Database URI: {app.config['SQLALCHEMY_DATABASE_URI']}")
-        logger.info("Application initialzed successfully.")
-        
-        
     return app
+ def register_blueprint(app):
+    """Register all app blueprint here."""
+    from app.routes.employee_routes import employee_bp
+    app.register_blueprint(employee_bp, url_prefix="/api/employees")
+    
+    # Add other blueprint as needed here 
+    
+def setup_logging(app):
+    log_level = logging.DEBUG if app.config["ENV"] == "development" else logging.INFO
+    logging.basicConfig(level=log_level, format="%(levelname)s:%(name)s:%(message)s")
+    logger = logging.getLogger(__name__)
+    logger.info(f"Starting app is in {app.config['ENV']} mode")
+    logger.info(f"Database: {app.config['SQLALCHEMY_DATABASE_URI']}")
     
