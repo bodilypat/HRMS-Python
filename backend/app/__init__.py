@@ -5,6 +5,7 @@ import logging
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_cors import CORS
 from dotenv import load_dotenv 
 
 # Load environment variables early
@@ -28,16 +29,32 @@ def create_app():
     # Initialize extensions with the app
     db.init_app(app)
     migrate.init_app(app, db)
+    CORS(app) # Optional: allow cross-origin requests
     
     # Register Blueprints 
-    from app.routes.employee_routes import employee_bp
-    app.register_blueprint(employee_bp, url_prefix='/api/employees')
+    register_blueprints(app)
+
+    # Setup Logging
+    setup_logging(app)
     
     # Log basic startup info 
-    logging.basicConfig(level=logging.INFO)
-    logger = logging.getLogger(__name__)
-    logger.info(f"App started in {os.getenv('FLASK_ENV', 'development')} mode")
-    logger.info(f"Database connected: {app.config['SQLALCHEMY_DATABASE_URI']}")
+    """ Register all application blueprints"""
+    from app.routes.employee_routes import employee_bp
+    app.register_blueprint(employee_bp, url_prefix='/api/employees')
+    # Future: register more blueprint here 
+    # from app.routes.department_routes import department_bp
+    # app.register_blueprint(department_bp, url_prefix='/api/departments')
     
+    def setup_logging(app):
+        """Configure logging"""
+        log_level = logging.DEBUG if app.config.get("ENV") == "development" else logging.INFO
+        logging.basicConfig(level=log_level)
+        logger = logging.getLogger(__name__)
+        
+        logger.info(f"Environment: {app.config.get('ENV', 'development')}")
+        logger.ingo(f"Database URI: {app.config['SQLALCHEMY_DATABASE_URI']}")
+        logger.info("Application initialzed successfully.")
+        
+        
     return app
     
