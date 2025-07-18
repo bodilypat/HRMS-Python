@@ -1,23 +1,23 @@
 # Backend/app/controllers/__init__.py
 
-from .employee.employee_controller import EmployeeController 
-from .payroll.payroll_controller import PayrollController 
-from .training.training_controller import TrainingController 
 from .auth.auth_controller import AuthController 
-from .attendance.attendance_controller import AttendanceController 
+from .employee.employee_controller import EmployeeController 
 from .department.department_controller import DepartmentController 
+from .payroll.payroll_controller import PayrollController 
+from .attendance.attendance_controller import AttendanceController 
 from .roles.role_controller import RoleController 
 from .leave.leave_controller import LeaveController 
+from .training.training_controller import TrainingController 
 
 __all__= [
-		"EmployeeController",
-		"PayrollController",
-		"TrainingController",
 		"AuthController",
-		"AttendanceController",
+		"EmployeeController",
 		"DepartmentController",
-		"RoleController",
-		"LeaveController"
+		"PayrollController",
+		"AttendanceController",
+		"RolesController",
+		"LeaveController",
+		"TrainingController"
 	]
 	
 	
