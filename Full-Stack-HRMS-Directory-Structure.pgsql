@@ -7,7 +7,7 @@ Full-Stack-HRMS-Directory-Structure
 │   │   │
 │   │   ├── models/                             # SQLALchemy ORM models
 │   │   │   ├── __init__.py
-│   │   │   ├── __base_models.py
+│   │   │   ├── base_models.py
 │   │   │   ├── core/
 │   │   │   │   ├── employee.py
 │   │   │   │   ├── department.py
@@ -29,25 +29,47 @@ Full-Stack-HRMS-Directory-Structure
 │   │   ├── routes/                             # Route handler (Blueprint)
 │   │   │   ├── __init__.py
 │   │   │   ├── auth/
-│   │   │   │   └── routes.py
+│   │   │   │   └── api.py
 │   │   │   ├── employee/
-│   │   │   │   └── routes.py
+│   │   │   │   └── api.py
 │   │   │   ├── payroll/
-│   │   │   │   └── routes.py
+│   │   │   │   └── api.py
 │   │   │   ├── attendance/
-│   │   │   │   └── routes.py
+│   │   │   │   └── api.py
 │   │   │   ├── department/
-│   │   │   │   └── routes.py
+│   │   │   │   └── api.py
 │   │   │   ├── roles/
-│   │   │   │   └── routes.py
+│   │   │   │   └── api.py
 │   │   │   └── leave/ 
-│   │   │       └── routes.py 
+│   │   │       └── api.py 
 │   │   │
 │   │   ├── controllers/                        # Business logic layer
 │   │   │   ├── __init__.py
-│   │   │   ├── employee_controller.py
-│   │   │   ├── payroll_controller.py
-│   │   │   └── training_controller.py  
+│   │   │   ├── base_controller.py
+│   │   │   ├── auth/
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── auth_controller.py
+│   │   │   ├── employee/
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── employee_controller.py
+│   │   │   ├── department/
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── department_controller.py
+│   │   │   ├── payroll/
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── payroll_controller.py
+│   │   │   ├── attendance/
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── attendance_controller.py
+│   │   │   ├── roles/
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── role_controller.py
+│   │   │   ├── leave/
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── leave_controller.py
+│   │   │   └── training/  
+│   │   │       ├── __init__.py
+│   │   │       └── training_controller.py
 │   │   │
 │   │   ├── services/                           # Utilities / helpers / external services
 │   │   │   ├── __init__.py
