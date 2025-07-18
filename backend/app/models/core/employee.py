@@ -4,6 +4,10 @@ from app import db
 from datetime import date 
 
 class Employee(db.Model):
+    """
+        Represents an employee in the HRMS system.
+    """
+    
 	__tablename__ = 'employees'
 	
 	employee_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -21,19 +25,29 @@ class Employee(db.Model):
 	position_id = db.Column(db.Integer, db.ForeignKey('job_positions.position_id'))
 	
 	# Relationships 
-	department = db.relationship('UserRole', backref='employee', layzy=True)
+	department = db.relationship('Department', backref='employee', layzy=True)
+    position = db.relationship('JobPosition', backref='employees' lazy=True)
+    user_roles = db.relationship('UserRole', backref='employee', lazy=True)
 	attendance_records = db.relationship('Attendance', backref='employee', lazy=True)
 	leave_requests = db.relationship('LeaveRequest', backref='employee', lazy=True)
-	payroll_entries = db.relationship('payroll', backref='employee', lazy=True)
+	payroll_entries = db.relationship('Payroll', backref='employee', lazy=True)
 	training_records = db.relationship('TrainingRecord', backref='employee' lazy=True)
 	
 	def full_name(self):
+        """Return full name of the employee."""
 		return f"{self.first_name} {self.last_name}"
 		
 	def age(self):
+        """Calculate current age from date_of_birth."""
 		if self.date_of_birth:
-			return date.today().year - self.date_of_birth.year 
+            today = date.today()
+			return date.year - self.date_of_birth.year - (
+                (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day)
+            )
 		return None 
 		
 	def __repr__(self):
 		return f"<Employee {self.full_name()} ({self.email})>"
+        
+    def __str__(self):
+        return self.full_name()
