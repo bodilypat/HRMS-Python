@@ -3,9 +3,12 @@
 from flask import Blueprint, request, jsonify
 from app.models.core.employee import Employee
 from app.models import db
-from datetime import datetime
+from app.schemas.employee_schema import employeeCreateSchema, EmployeeUpdateSchema
 
 employee_bp = Blueprint('employee', __name__)
+create_schema = EmployeeCreateSchema
+update_schema = EmployeeUpdateSchema()
+
 
 # GET: Retrieve all employees
 @employee_bp.route('/', methods=['GET'])
@@ -28,10 +31,9 @@ employee_bp = Blueprint('employee', __name__)
     def create_employeed():
         data = request.get_json()
         
-        required_fields = ["first_name", "last_name", "email"]
-        
-        if not all(data.get(field) for field in required_fields):
-            return jsonify({"error": "Missing required fields"}), 400
+        errors = create_schema.validate(data)
+        if errors:
+            return jsonify({"errors": errors}), 400
             
         try:
             new_emp = Employee(
@@ -58,13 +60,41 @@ employee_bp = Blueprint('employee', __name__)
      except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 400 
-                
-    # Helper to parse date safely
-    def _parse_data(date_str):
-        if not date_str:
-            return None
+        
+# PUT: Update an employee
+@employee_bp.route("/<int:employee_id>", method=["PUT"])
+def update_employee(employee_id):
+        data = request.get_json()
+        errors = update_schema.validate(data)
+        if errors:
+            return jsonify({"errors": errors}), 400
+            
+        employee = Employee.query.get_or_404(employee_id)
         try:
-            return datetime.strptime(date_str,"%y-%m-%d).date()
-        except ValueError:
-            return None
+            for field, value in data.items():
+                setattr(employee, field, value)
+            db.sesion.commit()
+            return jsonify({"error": str(e)}), 400
+
+# DELETE: Delete an employee
+@employee_bp.route("/<int:employee_id>", method=["DELETE"])
+def delete_employee(employee_id):
+    employee = Employee.query.get_or_404(employee_id)
+    
+    try: 
+        db.session.delete(employee)
+        db.session.commit()
+        return jsonify({"message": "Employee deleted"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
+        
+# Helper to parse date safely
+def _parse_data(date_str):
+    if not date_str:
+        return None
+    try:
+        return datetime.strptime(date_str,"%y-%m-%d).date()
+    except ValueError:
+        return None
             
