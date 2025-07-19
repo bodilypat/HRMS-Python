@@ -14,32 +14,7 @@ load_dotenv()
 # Initialize extensions 
 db = SQLAlchemy()
 migrate = Migrate()
-
-def create_app():
-    """Application factory function"""
     
-    app = Flask(__name__)
-    
-    # Load configuration
-    config_name = config_name or os.getenv('FLASK_ENV', 'development')
-    config_module = f"app.config.{config_name.capitalize()}Config"
-    app.config.form_object(config_module)
-    
-    # Initialize extensions
-    db.init_app(app)
-    migrate.init_app(app, db)
-    CORS(app)
-    
-    # Import models so alembic can detect them
-    from app.models import *
-    
-    # Register Blueprints
-    register_blueprint(app)
-    
-    # Setup logging 
-    setup_logging(app)
-    
-    return app
  def register_blueprint(app):
     """Register all app blueprint here."""
     from app.routes.employee_routes import employee_bp
@@ -50,7 +25,31 @@ def create_app():
 def setup_logging(app):
     log_level = logging.DEBUG if app.config["ENV"] == "development" else logging.INFO
     logging.basicConfig(level=log_level, format="%(levelname)s:%(name)s:%(message)s")
-    logger = logging.getLogger(__name__)
     logger.info(f"Starting app is in {app.config['ENV']} mode")
     logger.info(f"Database: {app.config['SQLALCHEMY_DATABASE_URI']}")
+   
+def create_app():
+    """Application factory function"""
     
+    app = Flask(__name__)
+    
+    # Load configuration
+    config_name = os.getenv('FLASK_ENV', 'development')
+    config_module = f"app.config.{config_name.capitalize()}Config"
+    app.config.form_object(config_module)
+    
+    # Initialize extensions
+    db.init_app(app)
+    migrate.init_app(app, db)
+    CORS(app)
+    
+    # Import models so alembic can detect them
+    from app import models
+    
+    # Register Blueprints
+    register_blueprint(app)
+    
+    # Setup logging 
+    setup_logging(app)
+    
+    return app
