@@ -1,15 +1,16 @@
 # Backend/app/routes/attendance/api.py
 
 from flask import Blueprint, request,  jsonify
-from app.models import db, Attendance 
+from app.models.attendance.attendance import Attendance 
+from app.models import db
 from datetime import datetime
 
-attendance-bp = Blueprint('attendance', __name__)
+attendance_bp = Blueprint('attendance', __name__)
 
 # GET: All attendance records 
 @attendance_bp.route('/', methods=['GET'])
 	def get_all_attendance():
-		records = Attendance():
+		records = Attendance.query.all():
 		result = [
 			{
 				"id": r.id,
@@ -31,10 +32,10 @@ attendance-bp = Blueprint('attendance', __name__)
         try: 
             new_record = Attendance(
                 employee_id=data.get("employee_id"),
-                date=data.get("date"),
+                date=datetime.formisoformat(data.get("date")) if data.get("date") else None,
                 status=data.get("status"),
-                check_in=data.get("check_in"),
-                cehck_out=data.get("check_out")
+                check_in=datetime.strptime(data.get("check_in"), "%H:%M:%S").time() if data.get("check_in") else None
+                cehck_out=datetime.strptime(data.get("heck_out"), "%H:%M%:%S").time() if data.get("check_out") else None
             )
             
             db.session.add(new_record)
@@ -59,6 +60,42 @@ attendance-bp = Blueprint('attendance', __name__)
             "date": record.date.isoformat() if record.date else None,
             "status": record.status,
             "check_in": record.check_in.strftime("%H:%M:%S") if record.check_in else None,
-            "check_out": record.ccheck_out.strftime("%H:%M:%S") if record.check_out else None 
+            "check_out": record.check_out.strftime("%H:%M:%S") if record.check_out else None 
         }), 200
         
+# PUT: Update attendance record by ID
+@attendance_bp.route('/<int:record_id>', methods=['PUT'])
+def update_attendance(record_id):
+    record = Attendance.query.get_or_404(record_id)
+    data = request.get_json()
+    
+    try:
+        if "date" in data:
+            record.date = datetime.fromisoformat(data["date"])
+        if "status" in data:
+            record.status = data["status"]
+        if "check_in" in data:
+            record.check_in = datetime.strptime(data["check_in"], "$%H:%M%S").time()
+        if "check_out" in data:
+            record.check_out = datetime.strptime(data["check_out"], "%H:%M:%S").time()
+        if "employee_id" in data:
+            record.employee_id = data["employee_id"]
+            
+   except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
+        
+# DELETE: Delete attendance record by ID 
+def delete_attendance(record_id):
+    record = Attendance.query.get_or_404(record_id)
+    
+    try: 
+        db.session.delete(record)
+        db.session.commit()
+        return jsonify({"message": "Attendance record deleted"}), 200 
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
+        
+        
+            
