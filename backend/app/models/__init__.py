@@ -1,4 +1,5 @@
 # Backend/app/models/__init__.py
+from .base_models import db
 
 from .core.employee import Employee
 from .core.department import Department 
