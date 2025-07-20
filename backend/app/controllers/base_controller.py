@@ -4,6 +4,7 @@ from flask import jsonify
 from sqlalchemy.exc import SQLAlchemyError
 import logging
 
+# Correct Logger initialization
 logger = loggiger.getLogger(__name__)
 
 class BaseController: 
@@ -11,7 +12,7 @@ class BaseController:
 		BaseController provides common utility methods for all controllers,
 		including standardized responses and error handling.
 	"""
-	def success_response(self, data=None, message="Success", status_code="200):
+	def success_response(self, data=None, message: str="Success", status_cod: int =200):
 		"""
 			Return a standardized success response.
 		"""
@@ -42,6 +43,6 @@ class BaseController:
 			return self.success_response(message=success_message)
 		except SQLAlchemyError as e:
 			session.rollback()
-            logger.error(f"Database commit failed: {e}")
+            logger.error(f"Database commit failed: {e.__class__.__name__}: {str(e)}")
 			return self.error_response("Database error occurred. Please try again later.", status_code=500)
 			
