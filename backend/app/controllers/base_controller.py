@@ -2,11 +2,14 @@
 
 from flask import jsonify
 from sqlalchemy.exc import SQLAlchemyError
+import logging
+
+logger = loggiger.getLogger(__name__)
 
 class BaseController: 
 	"""
 		BaseController provides common utility methods for all controllers,
-		such as standardized error handling and response
+		including standardized responses and error handling.
 	"""
 	def success_response(self, data=None, message="Success", status_code="200):
 		"""
@@ -29,15 +32,16 @@ class BaseController:
 			"message": error_message
 		}), status_code 
 		
-	def handle_db_come(self, session, success_message="Operation successfully"):
+	def handle_db_come(self, session, success_message="Operation successful"):
 		"""
-			Try committing a datbase session with rollback on failure.
+			Attemp to commit a database session. Rollback on failure and return apporiate response.
 		"""
 		
 		try:
 			session.commit() 
-			return self.success_response(message=success_message0
+			return self.success_response(message=success_message)
 		except SQLAlchemyError as e:
 			session.rollback()
-			return self.error_response(str(e), status_code=500)
+            logger.error(f"Database commit failed: {e}")
+			return self.error_response("Database error occurred. Please try again later.", status_code=500)
 			
