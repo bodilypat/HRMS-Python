@@ -8,6 +8,9 @@ from flask import current_app
 
 from app.models import db, Employee 
 from app.controllers.base_controller import BaseController 
+import logging
+
+logger = logging.getLogger(__name__)
 
 class AuthController(BaseController):
 	"""
@@ -33,16 +36,16 @@ class AuthController(BaseController):
 				hire_date=datetime.utcnow()
 			)
 			db.session.add(new_user)
-			db.session.commit()
-			
-			return self.success_response(
-				{"id": new_user.employee_id},
-				message="User registered successfully",
-				status_code=201
-			)
+            
+			return self.handle_db_commit(
+				db.session,
+				success_message="User registered successfully",
+			)[0], 201
+            
 		except Exception as e:
-			db.session.rollback()
-			return self.error_response(str(e), 500)
+			logger.exception("Registration failed.")
+            db.session.roolback()
+			return self.error_response("Registration failed. Please try again later.", 500)
 			
 	def login_user(self, data):
 		if not data or not data.get("email") or not data.get("password"):
@@ -54,10 +57,15 @@ class AuthController(BaseController):
 				return self.error_response("Invalid credentials", 401)
 			
 			try:
-				token = jwt.encode({
-					'user_id': user.employee_id,
-					'ex': datetime.utcnow() + timedelta(hours=24)
-				}, current_app.config['SECRET_KEY'], algorithm='HS256')
+                payload = {
+                    "user_id": user.employee_id,
+                    "exp": datetime.utcnow() + timedelta(hours=24)
+                }
+				token = jwt.encode(
+                    payload,
+                    current_app.config["SECRET_KEY"],
+                    algorithm="HS256"
+				)
 				
 				return self.success_response({
 					"token": token,
@@ -68,6 +76,7 @@ class AuthController(BaseController):
 					}
 				})
 			except Exception as e:
-				return self.error_response(str(e), 500)
+                logger.exception("Login failed.")
+				return self.error_response("Login failed. Please try again later.", 500)
 			)
 				
