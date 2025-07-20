@@ -2,10 +2,11 @@
 
 from app.models import db, Role 
 from app.controllers.base_controller import BaseController 
+from sqlalchemy.exc import SQLAlchemyError
 
 class RoleController(BaseController):
 	"""
-		Handles business logic for creating, reading, updating, and deleting user roles 
+		Handles business logic for creating, reading, updating, and deleting user roles .
 	"""
 	
 	def get_all_roles(self):
@@ -51,9 +52,9 @@ class RoleController(BaseController):
 				message= "Role created",
 				status_code=201
 			)
-		except Exception as e:
+		except SQLAlchemyError as e:
 			db.session.rollback()
-			return self.error_response(str(e), 500)
+			return self.error_response("Databse error: " + str(e), 500)
 		
 	def update_role(self, role_id, data):
 		role = Role.query.get(role_id)
@@ -67,9 +68,9 @@ class RoleController(BaseController):
 			db.session.commit()
 			return self.success_response(message="Role updated")
 		
-		except exception as e:
+		except SQLAlchemyError as e:
 			db.session.rollback()
-			return self.error_response(str(e), 500)
+			return self.error_response("Database error: ", str(e), 500)
 			
 	def delete_role(self, role_id):
 		role = Role.query.get(role_id)
@@ -81,8 +82,8 @@ class RoleController(BaseController):
             db.session.commit() 
             return self.success_response(message="Role deleted")
            
-        except Exception as e:
+        except SQLAlchemyError as e:
             db.session.rollback()
-            return self.error_response(str(e), 500)
+            return self.error_response("Database error: " + str(e), 500)
             
             
