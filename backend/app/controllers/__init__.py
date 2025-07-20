@@ -15,7 +15,7 @@ __all__= [
 		"DepartmentController",
 		"PayrollController",
 		"AttendanceController",
-		"RolesController",
+		"RoleController",
 		"LeaveController",
 		"TrainingController"
 	]
