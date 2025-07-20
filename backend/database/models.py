@@ -2,8 +2,9 @@
 
 from app import db
 from datetime import date 
+from sqlalchemy import Numeric, Boolean
 
-class JobPosition(db.model):
+class JobPosition(db.Model):
 	__tablename__ = 'job_positions'
 	
 	position_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -23,7 +24,7 @@ class Department(db.Model):
 	employees = db.relationship('Employee', backref='department', lazy=True)
 	
 	
-class Employee(db.Model)
+class Employee(db.Model):
 	__tablename__='employees'
 	
 	employee_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -56,7 +57,7 @@ class Role(db.Model):
     
 class UserRole(db.Model):
     __tablename__= 'user_roles'
-    user_role_id = db.Column(db.Integer, primary_key=True, autoincreate=True)
+    user_role_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     employee_id = db.Column(db.Integer, db.ForeignKey('employees.employee_id'))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.role_id'))
     assigned_date = db.Column(db.Date, default=date.today)
@@ -97,7 +98,7 @@ class TrainingCourse(db.Model):
     course_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     course_name = db.Column(db.String(100))
     description = db.Column(db.Text)
-    durations = db.Column(db.Integer)
+    duration = db.Column(db.Integer)
     required = db.Column(Boolean)
     
     training_records = db.relationship('TrainingRecord', backref='course', lazy=True)
@@ -107,7 +108,7 @@ class TrainingRecord(db.Model):
     
     training_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     employee_id = db.Column(db.Integer, db.ForeignKey('employees.employee_id'))
-    course_id = db.Column(db.Integer, db.ForeignKey('traning_course.course_iid'))
+    course_id = db.Column(db.Integer, db.ForeignKey('traning_course.course_id'))
     training_name = db.Column(db.String(100))
     start_date = db.Column(db.Date)
     end_date = db.Column(db.Date)
