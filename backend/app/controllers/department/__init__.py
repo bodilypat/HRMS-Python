@@ -4,3 +4,4 @@ from .department_controller import DepartmentController
 __all__ = [
 	"DepartmentController",
 ]
+
