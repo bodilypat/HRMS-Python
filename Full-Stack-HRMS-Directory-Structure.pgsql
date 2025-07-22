@@ -69,39 +69,39 @@ Full-Stack-HRMS-Directory-Structure
 │   │   │   ├── leave/
 │   │   │   │   ├── __init__.py
 │   │   │   │   └── leave_controller.py
-│   │   │   ├── training/
-│   │   │   │   ├── __init__.py
-│   │   │   │   └── training_controller.py
-│   │   │   │
-│   │   │	├── services/                           # Utilities / helpers / external services
-│   │   │   │	├── __init__.py
-│   │   │   │	├── send_email.py
-│   │   │  	│	├── authenticate_user.py
-│   │   │   │	├── generate_token.py
-│   │   │   │	├── verify_token.py
-│   │   │   │	└── generate_pdf.py  
-│   │   │   │
-│   │   │	├── schemas/                            # Pydantic schemas
-│   │   │   │	├── __init__.py
-│   │   │   │	├── employee_schema.py
-│   │   │   │	├── payroll_schema.py
-│   │   │   │	└── auth_schema.py 
-│   │   │ 	│
-│   │   │	├── middleware/                        
-│   │   │	│   ├── __init__.py
-│   │   │	│   ├── auth_middleware.py
-│   │   │	│   ├── logging_middleware.py
-│   │   │	│   ├── exception_middleware.py
-│   │  	│	│   └── rate_limit_middleware.py  
-│   │   │	│
-│   │   │	├── auth/                               # Authentication logic
-│   │   │	│   ├── __init__.py
-│   │   │	│   ├── jwt_handler.py
-│   │  	│	│   └── user_loader.py  
-│   │   │	│
-│   │   │	├── templates/                          
-│   │   │	└── static/                             # Static files (CSS, JS, image
-│   │   │
+│   │   │   └── training/  
+│   │   │       ├── __init__.py
+│   │   │       └── training_controller.py
+│   │   │   
+│   │   ├── services/                           # Utilities / helpers / external services
+│   │   │	├── __init__.py
+│   │   │   ├── send_email.py
+│   │   │  	├── authenticate_user.py
+│   │   │   ├── generate_token.py
+│   │   │   ├── verify_token.py
+│   │   │   └── generate_pdf.py  
+│   │   │   
+│   │   ├── schemas/                            # Pydantic schemas
+│   │   │   ├── __init__.py
+│   │   │   ├── employee_schema.py
+│   │   │   ├── payroll_schema.py
+│   │   │   └── auth_schema.py 
+│   │   │ 	
+│   │   ├── middleware/                        
+│   │   │	├── __init__.py
+│   │   │	├── auth_middleware.py
+│   │   │	├── logging_middleware.py
+│   │   │	├── exception_middleware.py
+│   │  	│   └── rate_limit_middleware.py  
+│   │   │	
+│   │   ├── auth/                               # Authentication logic
+│   │   │	├── __init__.py
+│   │   │	├── jwt_handler.py
+│   │  	│	└── user_loader.py  
+│   │   │	
+│   │   ├── templates/                          
+│   │   └── static/                             # Static files (CSS, JS, image
+│   │   
 │   ├── migrations/                             # Alemlic or Flask-Migrate migration files                                      
 │   │
 │   ├── tests/                                  # Unit and integration tests
