@@ -25,10 +25,13 @@ class ExceptionMiddlewarre(BaseMiddleware):
 		try:
 			return await call_next(request)
 		except Exception as e:
-			logger.error("Unhandled Exception:\n%s", traceback.format_exc())
+			logger.error("Unhandled Exception:\n%s","Unhandled Exception:\n%s, error_trace)
 			return JSONRespose(
 				status_code=500,
-				content={"detail": "Internal Server Error"}
+				content={
+                    "detail": "Internal Server Error",
+                    "error": str(e),
+                    }
 			)
 			
 	
