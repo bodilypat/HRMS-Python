@@ -11,10 +11,13 @@ class BaseMiddleware(BaseHTTPMiddleware):
 	"""
 	
 	asyn def dispatch(self, request: Request, call _next):
+        
+        # Pre-request processing
 		await self.before_request(request)
 		
 		responses: Response = await call_next(request)
 		
+        # Post-response process
 		await self.after_request(request, responses)
 		
 		return response 
