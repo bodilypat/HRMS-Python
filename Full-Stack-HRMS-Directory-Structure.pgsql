@@ -74,9 +74,9 @@ Full-Stack-HRMS-Directory-Structure
 │   │   │       └── training_controller.py
 │   │   │   
 │   │   ├── services/                           # Utilities / helpers / external services
-│   │   │	├── __init__.py
+│   │   │   ├── __init__.py
 │   │   │   ├── send_email.py
-│   │   │  	├── authenticate_user.py
+│   │   │   ├── authenticate_user.py
 │   │   │   ├── generate_token.py
 │   │   │   ├── verify_token.py
 │   │   │   └── generate_pdf.py  
