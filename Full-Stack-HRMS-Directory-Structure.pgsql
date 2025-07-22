@@ -88,16 +88,16 @@ Full-Stack-HRMS-Directory-Structure
 │   │   │   └── auth_schema.py 
 │   │   │ 	
 │   │   ├── middleware/                        
-│   │   │	├── __init__.py
-│   │   │	├── auth_middleware.py
-│   │   │	├── logging_middleware.py
-│   │   │	├── exception_middleware.py
+│   │   │   ├── __init__.py
+│   │   │   ├── auth_middleware.py
+│   │   │   ├── logging_middleware.py
+│   │   │   ├── exception_middleware.py
 │   │  	│   └── rate_limit_middleware.py  
 │   │   │	
 │   │   ├── auth/                               # Authentication logic
-│   │   │	├── __init__.py
-│   │   │	├── jwt_handler.py
-│   │  	│	└── user_loader.py  
+│   │   │   ├── __init__.py
+│   │   │   ├── jwt_handler.py
+│   │  	│   └── user_loader.py  
 │   │   │	
 │   │   ├── templates/                          
 │   │   └── static/                             # Static files (CSS, JS, image
