@@ -97,9 +97,9 @@ Full-Stack-HRMS-Directory-Structure
 │   │   │	
 │   │   ├── auth/                               # Authentication logic
 │   │   │   ├── __init__.py
-│   │   │   ├── __jwt_handler__.py
-│   │   │   ├── __user_loader.py
-│   │   │   ├── __oauth2_scheme.py
+│   │   │   ├── jwt_handler__.py
+│   │   │   ├── user_loader.py
+│   │   │   ├── oauth2_scheme.py
 │   │   │   ├── auth_exception.py
 │   │  	│   └── auth_utils.py  
 │   │   │	
