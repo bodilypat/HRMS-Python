@@ -89,6 +89,7 @@ Full-Stack-HRMS-Directory-Structure
 │   │   │ 	
 │   │   ├── middleware/                        
 │   │   │   ├── __init__.py
+│   │   │   ├── base_middleware.py
 │   │   │   ├── auth_middleware.py
 │   │   │   ├── logging_middleware.py
 │   │   │   ├── exception_middleware.py
