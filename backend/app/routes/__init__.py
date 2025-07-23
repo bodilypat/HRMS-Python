@@ -1,22 +1,22 @@
 # Backend/app/routes/__init__.py
 
-def register_blueprints(app):
-    """Register all API blueprints with their URL prefixes."""
-    
-    from app.routes.auth.api import auth_bp
-    from app.routes.employee.api import employee_bp
-    from app.routes.payroll.api import payroll_bp
-    from app.routes.attendance.api import attendance_bp
-    from app.routes.department.api import department_bp
-    from app.routes.roles.api import role_bp
-    from app.routes.leave.api import leave_bp 
-    
-    # Register each blueprint with a consistent API prefix 
-    app.register_blueprint(auth_bp, url_prefix="/api/auth")
-    app.register_blueprint(employee_bp, url_prefix="/api/employees")
-    app.register_blueprint(payroll_bp, url_prefix="/api/payroll")
-    app.register_blueprint(attendance_bp, url_prefix="/api/attendance")
-    app.register_blueprint(department_bp, url_prefix="/api/departments")
-    app.register_blueprint(role_bp, url_prefix="/api/roles")
-    app.register_blueprint(leave_bp, url_prefix="/api/leave")
-    
+from fastapi import APIRouter 
+
+from .auth.api import as auth_router
+from .employee.api import router as employee_router 
+from .payroll.api import router as payroll_router
+from .attendance.api import as attendance_router
+from .department.api import router as department_router 
+from .roles.api import router as roles_router 
+from .leave.api import router as leave_router 
+
+api_router = APIRouter()
+
+# Register routerss with prefixes and tags
+api_router.include_router(auth_router, prefix="/auth", tags=["Auth"])
+api_router.include_router(employee_router, prefix="/employees", tags=["Employees"])
+api_router.include_router(payroll_router, prefix="/payroll", tags=["Payroll"])
+api_router.include_router(attendance_router, prefix="/attendance", tags=["Attendance"])
+api_router.include_router(department_router, prefix="/department", tags=["department"])
+api_router.include_router(roles_router, prefix="/role", tags=["Role"])
+api_router.include_router(leave_router, prefiix="/leave", tags=["Leave"])
