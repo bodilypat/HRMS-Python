@@ -124,42 +124,50 @@ Full-Stack-HRMS-Directory-Structure
 │   ├── .gitinore
 │   └── README.md
 │
-├── frontend/            
-│   ├── index.html
-│   ├── login.html
-│   ├── register.html
-│   ├── employee.html
-│   ├── payroll.html
-│   ├── attendance.html
-│   ├── assets/  
+├── frontend/ 
+│   ├── public/  
+│   │   ├── index.html
+│   │   ├── login.html      
+│   │   ├── register.hml 
+│   │	├── components/  
+│   │	│   ├── header.html
+│   │	│   ├── footer.html
+│   │	│   └── sidebar.html
+│   │   └── favicon.ico
+│   │   
+│   ├── asset/
 │   │   ├── images/
 │   │   ├── icons/
 │   │   └── fonts/
-│   │   
-│   ├── css/
-│   │   ├── main.css/
-│   │   ├── layout.css
-│   │   ├── form.css
+│   ├── style/
+│   │   ├── base/
+│   │	│	├── layout.css  
+│   │	│   ├── form.css
+│   │	│   ├── themes.css
+│   │	│   └── variables.css
+│   │   │
 │   │   ├── components/
 │   │   │   └── card.css
-│   │   └── themes.css
-│   ├── js/
-│   │   ├── main.js
-│   │   ├── api.js
-│   │   ├── auth.js
-│   │   ├── employee.js
-│   │   ├── payroll.js
-│   │   ├── attendance.js
-│   │   └── utils/
-│   │       └── domUtils.js
-│   ├── components/
-│   │   ├── header.html
-│   │   ├── sidebar.html
-│   │   └── footer.html
+│   │   └── main.css
+│   │ 
+│   ├── scripts/
+│   │   ├── api/
+│   │	│	├── auth.api.js
+│   │	│   ├── employee.api.js
+│   │	│   └── payroll.api.js
+│   │   ├── modules/
+│   │	│	├── auth.js
+│   │	│   ├── employee.js
+│   │	│   ├── payroll.js
+│   │	│   └── attendance.js
+│   │   ├── utils/
+│   │   │   └── domUtils.js
+│   │   └── main.js
 │   │   
 │   └── data/                     
 │       ├── employees.json
 │       └── payroll.json
-├── favicon.ico           
+├── static/                                     # Linked from backend for FastAPI
+│   └── (symlink or copy of frontend/public)           
 ├── .gitignore 
 └── README.md
