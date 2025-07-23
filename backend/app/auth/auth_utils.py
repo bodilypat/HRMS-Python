@@ -1,29 +1,23 @@
 # backend/app/auth/auth_utils.py
 
-from passilib.context import CryptContext 
-from typing import Optional
+from fastapi import Depends, HTMLException, status 
+from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt
+from datetime import datetime 
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+SECRET_KEY = "your-secret-key"
+ALGORITHM = "HS256"
 
-def hash_password(password: str) -> str:
-	"""
-		Hash a plain text password using bcrypt.
-	"""
-	return pwd_context.hash(password)
-	
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-	"""
-		Verify a plain password against a hashed password.
-	"""
-	return pwd_context.verify(plain_password, hashed_password)
-	
-def validate_credentails(input_password: str, stored_password_hash: str) ->bool:
-   """
-        High-level helper to validate credentials.
-        Returns None if valid, or an error string.
-    """
-    if not verify_password(input_password, stored_password_hash):
-        return "Incorrect password"
-    return None
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
+
+def verify_token(token: str = Depends(oauth2_scheme)):
     
-    
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email: str = payload.get("sub")
+        if email is None or payload.get("exp") < datetime.utcnow().timestamp():
+            raise HTTPException(status_code=401, detail="Token expired or invaid")
+        return email
+    exception JWTError:
+        raise HTTPException(status_code=403, detail="Invalid token")
+        
