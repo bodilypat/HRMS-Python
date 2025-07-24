@@ -4,7 +4,7 @@ Full-Stack-HRMS-Directory-Structure
 │   ├── app/                                    # Main Application  
 │   │   ├── __init.py                           # App factory function
 │   │   ├── config.py                           # Configuration settings(Dev, Prod, Test)
-│   │   │
+│   │   ├── main.py
 │   │   ├── models/                             # SQLALchemy ORM models
 │   │   │   ├── __init__.py
 │   │   │   ├── base_models.py
@@ -84,8 +84,9 @@ Full-Stack-HRMS-Directory-Structure
 │   │   ├── schemas/                            # Pydantic schemas
 │   │   │   ├── __init__.py
 │   │   │   ├── employee_schema.py
-│   │   │   ├── payroll_schema.py
-│   │   │   └── auth_schema.py 
+│   │   │   ├── department_schema.py
+│   │   │   ├── role_schema.py
+│   │   │   └── payroll_schema.py 
 │   │   │ 	
 │   │   ├── middleware/                        
 │   │   │   ├── __init__.py
@@ -103,6 +104,8 @@ Full-Stack-HRMS-Directory-Structure
 │   │   │   ├── auth_exception.py
 │   │  	│   └── auth_utils.py  
 │   │   │	
+│   │ 	├── database/                                    
+│   │   │ 	└── hrm_schemal.sql                     # SQL schema file
 │   │   ├── templates/                          
 │   │   └── static/                             # Static files (CSS, JS, image
 │   │   
@@ -114,8 +117,6 @@ Full-Stack-HRMS-Directory-Structure
 │   │   ├── test_auth.py                                       
 │   │   └── test_payroll.py  
 │   │
-│   ├── database/                                    
-│   │   └── hrm_schemal.sql                     # SQL schema file
 │   │ 
 │   ├── run.py                                  # Entry point to start app 
 │   ├── requirements.txt                         
