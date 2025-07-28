@@ -9,14 +9,14 @@ CREATE TABLE IF NOT EXISTS Job_Position (
 
 CREATE TABLE IF NOT EXISTS Departments (
 	depart_id INT PRIMARY KEY AUTO_INCREMENT,
-	name VARCHAR(100)
+	name VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE IF NOT EXIST Employees (
+CREATE TABLE IF NOT EXISTS Employees (
 	employee_id INT PRIMARY KEY AUTO_INCREMENT,
-	first_name VARCHAR(100),
-	last_name VARCHAR(100),
-	email VARCHAR(150) UNIQUE,
+	first_name VARCHAR(100) NOT NULL,
+	last_name VARCHAR(100) NOT NULL,
+	email VARCHAR(150) UNIQUE NOT NULL,
 	phone VARCHAR(20),
 	date_of_birth DATE,
 	hire_date DATE,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXIST Employees (
 
 ALTER TABLE Departments 
 ADD COLUMN manager_id INT,
-ADD FOREIGN KEY (manage_id) REFERENCES Employees(employee_id);
+ADD FOREIGN KEY (manager_id) REFERENCES Employees(employee_id);
 
 CREATE TABLE IF NOT EXISTS Roles (
 	role_id INT PRIMARY KEY AUTO_INCREMENT, 
@@ -61,10 +61,10 @@ CREATE TABLE IF NOT EXISTS Payroll (
 	payroll_id INT PRIMARY KEY AUTO_INCREMENT,
 	employee_id INT,
 	pay_period DATE,
-	base_salary DECIMAL(10, 2)
-	deductions DECIMAL(10, 2)
-	bonuses DECIMAL(10, 2)
-	net_pay DECIMAL(10, 2)
+	base_salary DECIMAL(10, 2),
+	deductions DECIMAL(10, 2),
+	bonuses DECIMAL(10, 2),
+	net_pay DECIMAL(10, 2),
 	FOREIGN KEY (employee_id) REFERENCES Employees(employee_id) 
 );
 
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS Training_Records (
 	start_date DATE,
 	end_date DATE,
 	status VARCHAR(20),
-	score DECIMAL(5, 2)
+	score DECIMAL(5, 2),
 	certificate VARCHAR(255),
 	remarks TEXT,
 	FOREIGN KEY (employee_id) REFERENCES Employees(employee_id),
