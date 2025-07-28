@@ -1,4 +1,4 @@
-	---HTMS Database Schema 
+	---HRMS Database Schema 
 	
 CREATE TABLE IF NOT EXISTS Job_Position (
 	position_id INT PRIMARY KEY AUTO_INCREMENT,
