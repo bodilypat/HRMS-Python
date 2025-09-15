@@ -5,73 +5,81 @@ Full-Stack-HRMS-Directory-Structure
 │   │   ├── __init.py                           # App factory function
 │   │   ├── config.py                           # Configuration settings(Dev, Prod, Test)
 │   │   ├── main.py
-│   │   ├── models/                             # SQLALchemy ORM models
-│   │   │   ├── __init__.py
-│   │   │   ├── base_models.py
+│   │   ├── models/                             # SQLALchemy ORM models(data layer)
+│   │   │   ├── __init__.py                     # Import all model for easy access
+│   │   │   ├── base_models.py                  # Declaration base & mixins
 │   │   │   ├── core/
+│   │   │   │   ├── __init__.py
 │   │   │   │   ├── employee.py
 │   │   │   │   ├── department.py
 │   │   │   │   └── job_position.py
 │   │   │   ├── attendance/
+│   │   │   │   ├── __init__.py
 │   │   │   │   ├── attendance.py
 │   │   │   │   └── leave_request.py
 │   │   │   ├── payroll/
+│   │   │   │   ├── __init__.py	
 │   │   │   │   └── payroll.py
 │   │   │   ├── auth/
+│   │   │   │   ├── __init__.py
 │   │   │   │   ├── role.py
 │   │   │   │   ├── user_role.py
 │   │   │   │   ├── permission.py
 │   │   │   │   └── role_permission.py
-│   │   │   ├── training/
-│   │   │   │   ├── training_course.py
-│   │   │   │   └── training_record.py
-│   │   │   │ 
-│   │   ├── routes/                             # Route handler (Blueprint)
-│   │   │   ├── __init__.py
-│   │   │   ├── auth/
-│   │   │   │   └── api.py
-│   │   │   ├── employee/
-│   │   │   │   └── api.py
-│   │   │   ├── payroll/
-│   │   │   │   └── api.py
-│   │   │   ├── attendance/
-│   │   │   │   └── api.py
-│   │   │   ├── department/
-│   │   │   │   └── api.py
-│   │   │   ├── roles/
-│   │   │   │   └── api.py
-│   │   │   └── leave/ 
-│   │   │       └── api.py 
-│   │   │
-│   │   ├── controllers/                        # Business logic layer
-│   │   │   ├── __init__.py
-│   │   │   ├── base_controller.py
-│   │   │   ├── auth/
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── auth_controller.py
-│   │   │   │   ├── permission_controller.py
-│   │   │   │   └── role_controller.py
-│   │   │   ├── employee/
-│   │   │   │   ├── __init__.py
-│   │   │   │   └── employee_controller.py
-│   │   │   ├── department/
-│   │   │   │   ├── __init__.py
-│   │   │   │   └── department_controller.py
-│   │   │   ├── payroll/
-│   │   │   │   ├── __init__.py
-│   │   │   │   └── payroll_controller.py
-│   │   │   ├── attendance/
-│   │   │   │   ├── __init__.py
-│   │   │   │   └── attendance_controller.py
-│   │   │   ├── roles/
-│   │   │   │   ├── __init__.py
-│   │   │   │   └── role_controller.py
-│   │   │   ├── leave/
-│   │   │   │   ├── __init__.py
-│   │   │   │   └── leave_controller.py
-│   │   │   └── training/  
+│   │   │   └── training/
 │   │   │       ├── __init__.py
-│   │   │       └── training_controller.py
+│   │   │       ├── training_course.py
+│   │   │       └── training_record.py
+│   │   │
+│   │   ├── schemas/                            # Pydantic schemas
+│   │   │   ├── __init__.py
+│   │   │   ├── core/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── employee.py
+│   │   │   │   ├── department.py
+│   │   │   │   └── job_position.py
+│   │   │   ├── attendance/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── attendance.py
+│   │   │   │   └── leave_request.py
+│   │   │   ├── payroll/
+│   │   │   │   ├── __init__.py	
+│   │   │   │   └── payroll.py
+│   │   │   ├── auth/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── role.py
+│   │   │   │   ├── user_role.py
+│   │   │   │   ├── permission.py
+│   │   │   │   └── role_permission.py
+│   │   │   └── training/
+│   │   │       ├── __init__.py
+│   │   │       ├── training_course.py
+│   │   │       └── training_record.py
+│   │   │
+│   │   ├── api/                        # Business logic layer
+│   │   │   ├── __init__.py
+│   │   │   ├── core/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── employee.py
+│   │   │   │   ├── department.py
+│   │   │   │   └── job_position.py
+│   │   │   ├── attendance/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── attendance.py
+│   │   │   │   └── leave_request.py
+│   │   │   ├── payroll/
+│   │   │   │   ├── __init__.py	
+│   │   │   │   └── payroll.py
+│   │   │   ├── auth/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── role.py
+│   │   │   │   ├── user_role.py
+│   │   │   │   ├── permission.py
+│   │   │   │   └── role_permission.py
+│   │   │   └── training/ 
+│   │   │       ├── __init__.py
+│   │   │       ├── training_course.py
+│   │   │       └── training_record.py
 │   │   │   
 │   │   ├── services/                           # Utilities / helpers / external services
 │   │   │   ├── __init__.py
@@ -80,13 +88,6 @@ Full-Stack-HRMS-Directory-Structure
 │   │   │   ├── generate_token.py
 │   │   │   ├── verify_token.py
 │   │   │   └── generate_pdf.py  
-│   │   │   
-│   │   ├── schemas/                            # Pydantic schemas
-│   │   │   ├── __init__.py
-│   │   │   ├── employee_schema.py
-│   │   │   ├── department_schema.py
-│   │   │   ├── role_schema.py
-│   │   │   └── payroll_schema.py 
 │   │   │ 	
 │   │   ├── middleware/                        
 │   │   │   ├── __init__.py
