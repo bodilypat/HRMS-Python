@@ -1,4 +1,4 @@
-# Backend/app/controllers/department/department_controller.py
+# Backend/app/api/core/department_routes.py
 
 from app.models import db, Department
 from app.controllers.base_controller import BaseController 
@@ -80,4 +80,5 @@ class DepartmentController(BaseController):
             db.session.rollback()
             return self.error_response("Database error": + str(e), 500)
             
+
 			
