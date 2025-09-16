@@ -1,4 +1,4 @@
-# Backend/app/api/core/department_routes.py
+# app/api/core/department_routes.py
 
 from app.models import db, Department
 from app.controllers.base_controller import BaseController 
@@ -82,3 +82,4 @@ class DepartmentController(BaseController):
             
 
 			
+
