@@ -1,4 +1,4 @@
-# backend/app/controllers/employee/employee_controller.py
+# backend/app/api/core/employee_controller.py
 
 from app.models import db, Employee
 from app.controller.base_controller import BaseController
@@ -107,4 +107,5 @@ class EmployeeController(BaseController):
             
         except SQLAlchemyError as e:
             db.session.rollback()
+
             return self.error_response("Database error: " + str(e), 500)
