@@ -8,10 +8,10 @@ from models.core.employee import Employee
 from schemas.core.employee import EmployeeCreate, EmployeeUpdate, EmployeeRead 
 from db.session import get_db 
 
-router = APIRouter(prefis="/employees", tags=["Employees"])
+router = APIRouter(prefix="/employees", tags=["Employees"])
 
-@router.get("/", response=List[EmployeeRead])
-def read_employees(skp: int =0, limit: int = 10, db: Session = Depends(get_db)):
+@router.get("/", response_model=List[EmployeeRead])
+def read_employees(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
 	return db.query(Employee).offset(skip).limit(limit).all()
 	
 @router.get("/{employee_id}", response_model=EmployeeRead)
@@ -36,14 +36,18 @@ def update_employee(employee_id: int, updated_data: EmployeeUpdate, db: Session 
         raise HTTPException(status_code=404, detail="Employee not found")
     for key, value in updated_data.dict(exclude_unset=True).items():
         setattr(employee, key, value)
-       db.commit()
-       db.refresh(employee)
-       return employee 
+    db.commit()
+    db.refresh(employee)
+    return employee 
        
 @router.delete("/{employee_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_employee(employee_id:int, db: Session = Depends(get_db)):
+    employee = db.query(Employee).get(employee_id)
     if not employee:
         raise HTTPException(status_code=404, detail="Employee not found")
     db.delete(employee)
     db.commit()
     return
+       
+        
+    
