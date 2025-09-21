@@ -1,52 +1,52 @@
-#app/api/core/department_api.py
+#app/api/core/department_router.py
 
-from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends, HTTPExcepton, status, Query, Response 
+from sqlalchemy.orm import Session 
 from typing import List 
 
-from models.core.department import Department
-from schemas.core.department import DepartmentCreate, DepartmentUpdate, DepartmentRead 
+from schemas.core.department import DepartmentCreate, DepartmentUpdate, DepartmentREad 
 from db.session import get_db 
+from services.core import department_service 
 
-router = APIRouter(prefix="/departments", tags=["Departments"])
+router = APIRouter(perfix="/departments", tags=["Departments"])
 
-@router.get("/", response_model=List[DepartmentRead])
-def read_departments(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    return db.query(Department).offset(skip).limit(limit).all()
+@router.get("/", response_model=List[DepartmentRead], summry="Get a list of Departments")
+def read_departments(
+        skip: int = Query(0, ge=0),
+        limit: int = Query(0, le=100),
+        db: Session = Depends(get_db)
+    ):
+    return department_service.get_all_departments(db, skip, limit)
 
-@router.get("/{department_id}", response_model=DepartmentRead)
-def read_department(department_id: int, db: Session = Depends(get_db)):
-    department = db.query(Department).get(department_id)
-    if not department:
-        raise HTTPException(status_code=404, detail="Department not found")
-    
-@router.post("/", response_model=DepartmentRead, status_code=status.HTTP_201_CREATED)
-def create_department(department: DepartmentCreate, db: Session = Depends(get_db)):
-    db_department = Department(**department.dict())
-    db.add(db_department)
-    db.commit()
-    db.refresh(db_department)
-    return db_department
+@router.get("/{department_id}", response_model=DepartmentRead, summary="Get a single department by ID")
+def read_department (
+        department_id: int,
+        db: Session = Depends(get_db)
+    ):
+    return department_service.get_department_by_id(db,department_id)
 
-@router.put("/{employee_id}", response_model=DepartmentRead)
-def update_department(department_id: int, updated_data: DepartmentUpdate, db: Session = Depends(get_db)):
-    department = db.query(Department).get(department_id)
-    if not department:
-        raise HTTPException(status_code=404, detail="Department not found")
-    for key, value in updated_data.dict(exclude_unset=True).items():
-        setattr(department, key, value)
-    db.commit()
-    db.refresh(department)
-    return department 
+@router.post("/", response_model=DepartmentRead, status_code=status.HTTP_201_CREATED, summary="Create a new employee")
+def create_department(
+        department: DepartmentCreate,
+        db: Session = Depends(get_db)
+    ):
+    return department_service.create_department(db, department)
 
-@router.delete("/{department_id}", status_code=status.HTTP_24_NO_CONTENT)
-def delete_department(department_id: int, db: Session = Depends(get_db)):
-    department = db.query(Department).get(department_id)
-    if not department:
-        raise HTTPException(status_code=404, detail="Department not found")
-    db.delete(department)
-    db.commit()
-    return 
+@router.put("/{department_id}", response_model=DepartmentRead, summary="Update an existing employee")
+def update_department(
+        department_id: int,
+        updated_data: DepartmentUpdate,
+        db: Session = Depends(get_db)
+    ):
+    updated = department_service.update_department(db, department_id, updated_data)
+    if not updated:
+        raise HTTPExcepton(status_code=404, detail="Department not found")
+    return updated 
 
-
+@router.delete("/{department_id}", status_code=status.HTTP_204_NO_CONTENT, summary="Delete an department")
+def delete_department(department_id, db: Session = Depends(get_db)):
+    success = department_service.delete_department(db, department_id)
+    if not updated:
+        raise HTTPExcepton(status_code=404, detail="Department not found" )
+    return Response(status_code=status.HTTP_NO_CONTENT)
 
