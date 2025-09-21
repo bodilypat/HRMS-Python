@@ -1,51 +1,57 @@
 #app/api/attendance/attendance_routes.py
 
-from fastapi import APIRouter, Depends, HTTPException, status 
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends, HTTPException, status, Query, Response
+from sqlachemy.orm import Session
 from typing import List 
 
-from models.attendance.attendance import Attendance
 from schemas.attendance.attendance import AttendanceCreate, AttendanceUpdate, AttendanceRead
-from db.session import get_db 
+from db.session import get_db
+from services.attendance import attendance_service 
 
 router = APIRouter(prefix="/attendances", tags=["Attendances"])
 
-@router.get("/", response_model=List[AttendanceRead])
-def read_attendances(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    return db.query(Attendance).offset(skip).limit(limit).all()
+@router.get("/", response_model=List[AttendanceRead], summary="Get a list of Attendance" )
+def read_attendance(
+        skip: int = Query(0, ge=0),
+        limit: int = Query(10, le=100),
+        db: Session  = Depends(get_db)
+    ):
+    return attendance_service.get_all_attendance(db, skip, limit)
 
-@router.get("/{attendance_id}", response_model=AttendanceRead)
-def read_attendance(attendance_id: int, db: Session = Depends(get_db)):
-    attendance = db.query(Attendance).get(attendance_id)
+@router.get("{attendance_id}", response_model=AttendanceRead, summary="Get a single Attendance by ID")
+def read_attendance(
+        attendance_id: int,
+        db: Session = Depends(get_db)        
+    ):
+    attendance = attendance_service.get_attendance_by_id(db, attendance_id)
     if not attendance:
-        raise HTTPException(status_code=404, detail="Attendance not found")
+        raise HTTPException(status_code=404, detail="Attendancen not found")
     return attendance 
 
-@router.post("/", response_model=AttendanceRead, status_code=status.HTTP_201_CREATED)
-def create_attendance(attendance: AttendanceCreate, db: Session = Depends(get_db)):
-    attendance = Attendance(**attendance.dict())
-    db.add(attendance)
-    db.commit()
-    db.refresh(attendance)
-    return attendance
+@router.post("/", response_model=AttendanceRead, status_code=status.HTTP_201_CREATED, summary="Create a new Attendance")
+def create_attendance(
+        attendance: AttendanceCreate,
+        db: Session = Depends(get_db)
+    ):
+    return attendance_service.create_attendance(db, attendance)
 
-@router.put("/{attendance_id}", response_model=AttendanceRead)
-def update_attendance(attendance_id: int, updated_data: AttendanceUpdate, db: Session = Depends(get_db)):
-    attendance = db.query(Attendance).get(attendance_id)
-    if not attendance:
+@router.put("/{attendance_id}", response_model=AttendanceRead, summary="Update an existing Attedance")
+def update_attendance(
+        attendance_id: int,
+        updated_data: AttendanceUpdate,
+        db: Session = Depends(get_db)
+    ):
+    updated = attendance_service.update_attendance(db, attendance_id, updated_data)
+    if not updated:
         raise HTTPException(status_code=404, detail="Attendance not found")
-    for key, value in updated_data.dict(exclude_unset=True).items():
-        setattr(attendance, key, value)
-        db.commit()
-        db.refresh(attendance)
-        return attendance
-    
-@router.delete("/{attendance_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_attendance(attendance_id: int, db: Session = Depends(get_db)):
-    attendance = db.query(Attendance).get(attendance_id)
-    if not attendance:
-        raise HTTPException(status_code=404, detail="Attendance not found")
-    db.delete(attendance)
-    db.commit()
-    return 
+    return updated 
 
+@router.delete("/{attendance_id}", status_code=status.HTTP_204_NO_CONTENT, summary="Delete an employee")
+def delete_attendance(
+        attendance_id: int,
+        db: Session = Depends(get_db)
+    ):
+    success = attendance_service.delete_attendance(db, attendance_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Attendance not found")
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
