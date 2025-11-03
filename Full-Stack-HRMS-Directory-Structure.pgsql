@@ -4,18 +4,22 @@ Full-Stack-HRMS-Directory-Structure
 │   ├── app/                                    	
 │   │   ├── console/                         	
 │   │   ├── Exceptions/                           	
-│   │ 	├── Http/ 
+│   │ 	├── emdpoints/ 
 │   │   │   ├── controllers/    
-│   │   │   │   ├── AuthController.py  
-│   │   │   │   ├── EmployeeController.py  
-│   │   │   │   ├── DepartmentController.py
-│   │   │   │   ├── AttendanceController.py
-│   │   │   │   ├── LeaveController.py
-│   │   │ 	│   └── PayrollController.py
-│   │   │   ├── middleware/     
-│   │   │ 	│   └── RoleMiddleware.py                        
+│   │   │   │   ├── AuthController.py                                # Login / Register / Logout
+│   │   │   │   ├── EmployeeController.py                            # CRUD for employees      
+│   │   │   │   ├── DepartmentController.py                          # CRUD for departments
+│   │   │   │   ├── AttendanceController.py                          # Attendance tracking APIs
+│   │   │   │   ├── LeaveController.py                               # Leave requests and approvals
+│   │   │ 	│   └── PayrollController.py                             # Salary and payroll operation
+│   │   │   ├── middleware/  
+│   │   │   │   ├── AuthMiddleware.py    
+│   │   │   │   ├── RoleMiddleware.py       
+│   │   │ 	│   └── LoggingMiddleware.py                        
 │   │   │ 	└── requests/     
 │   │   │       ├── StoreEmployeeRequest.py
+│   │   │       ├── UpdateEmployeeRequest.py
+│   │   │       ├── StorePayrollRequest.py
 │   │   │ 	    └── UpdatePayrollRequest.py            	
 │   │   ├── models/                        
 │   │   │   ├── User.py
@@ -25,8 +29,15 @@ Full-Stack-HRMS-Directory-Structure
 │   │   │   ├── Leave.py
 │   │  	│   └── Payroll.py
 │   │   │	
-│   │   ├── Policies/                             	
-│   │   ├── config/                             	
+│   │   ├── Policies/  
+│   │   │   ├── EmployeePolicy.py
+│   │   │   ├── LeavePolicy.py
+│   │  	│   └── PayrollPolicy.py                           	
+│   │   ├── config/    
+│   │   │   ├── database.py
+│   │   │   ├── auth.py
+│   │   │   ├── setting.py
+│   │  	│   └── mail.py                         	
 │   │   ├── database/
 │   │   │   ├── factories/                     	
 │   │   │   ├── migration/
