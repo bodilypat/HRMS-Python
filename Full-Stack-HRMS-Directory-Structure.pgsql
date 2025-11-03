@@ -1,160 +1,48 @@
 Full-Stack-HRMS-Directory-Structure
 │
 ├── backend/                                 
-│   ├── app/                                    	# Main Application  
-│   │   ├── __init.py                           	# App factory function
-│   │   ├── config.py                           	# Configuration settings(Dev, Prod, Test)
-│   │   ├── main.py
-│   │ 	├── database/ 
-│   │   │   ├── session.py                                        
-│   │   │ 	└── schemal.sql                     	# SQL schema file
-│   │   ├── middleware/                        
-│   │   │   ├── __init__.py
-│   │   │   ├── base.py
-│   │   │   ├── auth.py
-│   │   │   ├── logging.py
-│   │   │   ├── exception.py
-│   │  	│   └── rate_limit.py  
+│   ├── app/                                    	
+│   │   ├── console/                         	
+│   │   ├── Exceptions/                           	
+│   │ 	├── Http/ 
+│   │   │   ├── controllers/    
+│   │   │   │   ├── AuthController.py  
+│   │   │   │   ├── EmployeeController.py  
+│   │   │   │   ├── DepartmentController.py
+│   │   │   │   ├── AttendanceController.py
+│   │   │   │   ├── LeaveController.py
+│   │   │ 	│   └── PayrollController.py
+│   │   │   ├── middleware/     
+│   │   │ 	│   └── RoleMiddleware.py                        
+│   │   │ 	└── requests/     
+│   │   │       ├── StoreEmployeeRequest.py
+│   │   │ 	    └── UpdatePayrollRequest.py            	
+│   │   ├── models/                        
+│   │   │   ├── User.py
+│   │   │   ├── Employee.py
+│   │   │   ├── Department.py
+│   │   │   ├── Attendance.py
+│   │   │   ├── Leave.py
+│   │  	│   └── Payroll.py
 │   │   │	
-│   │   ├── auth/                               	# Authentication logic
-│   │   │   ├── __init__.py
-│   │   │   ├── jwt_handler__.py
-│   │   │   ├── oauth2_scheme.py
-│   │   │   ├── user_loader.py
-│   │   │   ├── exceptions.py
-│   │  	│   └── utils.py  
-│   │   ├── models/                             	# SQLALchemy ORM models(data layer)
-│   │   │   ├── __init__.py                     	# Import all model for easy access
-│   │   │   ├── base_models.py                  	# Declaration base & mixins
-│   │   │   ├── core/
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── employee.py
-│   │   │   │   ├── department.py
-│   │   │   │   └── job_position.py
-│   │   │   ├── attendance/
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── attendance.py
-│   │   │   │   └── leave_request.py
-│   │   │   ├── payroll/
-│   │   │   │   ├── __init__.py	
-│   │   │   │   └── payroll.py
-│   │   │   ├── auth/
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── role.py
-│   │   │   │   ├── user_role.py
-│   │   │   │   ├── permission.py
-│   │   │   │   └── role_permission.py
-│   │   │   └── training/
-│   │   │       ├── __init__.py
-│   │   │       ├── training_course.py
-│   │   │       └── training_record.py
+│   │   ├── Policies/                             	
+│   │   ├── config/                             	
+│   │   ├── database/
+│   │   │   ├── factories/                     	
+│   │   │   ├── migration/
+│   │   │   └── seeders/
 │   │   │
-│   │   ├── schemas/                            	# Pydantic schemas
-│   │   │   ├── __init__.py
-│   │   │   ├── core/
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── employee.py
-│   │   │   │   ├── department.py
-│   │   │   │   └── job_position.py
-│   │   │   ├── attendance/
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── attendance.py
-│   │   │   │   └── leave_request.py
-│   │   │   ├── payroll/
-│   │   │   │   ├── __init__.py	
-│   │   │   │   └── payroll.py
-│   │   │   ├── auth/
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── role.py
-│   │   │   │   ├── user_role.py
-│   │   │   │   ├── permission.py
-│   │   │   │   └── role_permission.py
-│   │   │   └── training/
-│   │   │       ├── __init__.py
-│   │   │       ├── training_course.py
-│   │   │       └── training_record.py
+│   │   ├── routes/                            	
+│   │   │   ├── api.php
+│   │   │   └── web.php
 │   │   │
-│   │   ├── api/                        			# FastAPI router
-│   │   │   ├── __init__.py
-│   │   │   ├── core/
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── employee_routes.py
-│   │   │   │   ├── department_routes.py
-│   │   │   │   └── job_position_routes.py
-│   │   │   ├── attendance/
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── attendance_routes.py
-│   │   │   │   └── leave_request_routes.py
-│   │   │   ├── payroll/
-│   │   │   │   ├── __init__.py	
-│   │   │   │   └── payroll_routes.py
-│   │   │   ├── auth/
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── role_routes.py
-│   │   │   │   ├── user_role_routes.py
-│   │   │   │   ├── permission_routes.py
-│   │   │   │   └── role_permission_routes.py
-│   │   │   └── training/ 
-│   │   │       ├── __init__.py
-│   │   │       ├── training_course_routes.py
-│   │   │       └── training_record_routes.py
+│   │   ├── resource/                        			
+│   │   │   └── views/ 
 │   │   │   
-│   │   ├── services/                        # Business logic layer
-│   │   │   ├── __init__.py
-│   │   │   ├── core/
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── employee/
-│   │   │   │   │   └── service.py
-│   │   │   │   ├── department/
-│   │   │   │   │   └── service.py
-│   │   │   │   └── job_position/
-│   │   │   │       └── service.py
-│   │   │   ├── attendance/
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── attendance/
-│   │   │   │   │   └── service.py
-│   │   │   │   └── leave_request/
-│   │   │   │       └── service.py
-│   │   │   ├── payroll/
-│   │   │   │   ├── __init__.py	
-│   │   │   │   └── payroll
-│   │   │   │       └── service.py
-│   │   │   ├── auth/
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── role/
-│   │   │   │   │   └── service.py
-│   │   │   │   ├── user_role/
-│   │   │   │   │   └── service.py
-│   │   │   │   ├── permission/
-│   │   │   │   │   └── service.py
-│   │   │   │   └── role_permission/
-│   │   │   │       └── service.py
-│   │   │   └── training/ 
-│   │   │       ├── __init__.py
-│   │   │       ├── training_course/
-│   │   │       │   └── service.py
-│   │   │       └── training_record
-│   │   │           └── service.py
-│   │   │	
-│   │   ├── templates/                          
-│   │   └── static/                             # Static files (CSS, JS, image
-│   │   
-│   ├── migrations/                             # Alemlic or Flask-Migrate migration files                                      
-│   │
-│   ├── tests/                                  # Unit and integration tests
-│   │   ├── __init__.py
-│   │   ├── test_employee.py                         
-│   │   ├── test_auth.py                                       
-│   │   └── test_payroll.py  
-│   │
+│   │   ├── storage/                        
+│   │   ├── tests/                          
+│   │   └── composer.json
 │   │ 
-│   ├── run.py                                  # Entry point to start app 
-│   ├── requirements.txt                         
-│   ├── .env                                                             
-│   ├── .flaskenv                            
-│   ├── .gitinore
-│   └── README.md
-│
 ├── frontend/ 
 │   ├── public/  
 │   │   ├── index.html
@@ -164,12 +52,16 @@ Full-Stack-HRMS-Directory-Structure
 │   │	│   ├── header.html
 │   │	│   ├── footer.html
 │   │	│   └── sidebar.html
-│   │   └── favicon.ico
+│   │	│ 
+│   │   ├── favicon.ico   
+│   │   ├── manifest.json 
+│   │   └── robots.txt
 │   │   
 │   ├── asset/
 │   │   ├── images/
 │   │   ├── icons/
-│   │   └── fonts/
+│   │   ├── fonts/
+│   │   └── uploads/
 │   ├── style/
 │   │   ├── base/
 │   │	│	├── layout.css  
@@ -178,27 +70,76 @@ Full-Stack-HRMS-Directory-Structure
 │   │	│   └── variables.css
 │   │   │
 │   │   ├── components/
-│   │   │   └── card.css
+│   │	│	├── card.css  
+│   │	│   ├── navbar.css
+│   │	│   ├── sidebar.css
+│   │   │   └── table.css
+│   │	│ 
+│   │   ├── pages/
+│   │	│	├── dashboard.css  
+│   │	│   ├── employee.css
+│   │	│   ├── payroll.css
+│   │   │   └── attendance.css
 │   │   └── main.css
 │   │ 
-│   ├── scripts/
-│   │   ├── api/
-│   │	│	├── auth.api.js
-│   │	│   ├── employee.api.js
-│   │	│   └── payroll.api.js
-│   │   ├── modules/
-│   │	│	├── auth.js
-│   │	│   ├── employee.js
-│   │	│   ├── payroll.js
-│   │	│   └── attendance.js
+│   ├── src/
+│   │   ├── models/                                            # Data Models mapping to backend entities
+│   │	│	├── auth.js                                        # User / Login / register
+│   │	│   ├── employee.js                                    # Employee info model
+│   │	│	├── department.js                                  # Department data model
+│   │	│   ├── payroll.js                                     # Payroll and salary structure
+│   │	│   └── attendance.js                                  # Attendance and leave
+│   │	│ 
+│   │   ├── views/                                             # Responsible for renering UI & user interaction
+│   │	│	├── authView.js                                    # Login/register screens
+│   │	│   ├── employeeView.js                                # Employee management table + form
+│   │	│   ├── departmentView.js                              # Management department(Option)
+│   │	│   ├── payrollView.js                                 # Payroll view - salary slips, updates
+│   │	│   ├── attendanceView.js                              # Attendance/Leave display
+│   │	│   └── dashboardView.js                               # Dashboard summary view
+│   │	│ 
+│   │   ├── controllers/                                       # Controllers - coordinate View & Services
+│   │	│	├── authController.js                              # Handles Login/Logout/register Logic
+│   │	│   ├── employeeController.js                          # Controls employee CRUD
+│   │	│   ├── departmentController.js                        # Controls department operations
+│   │	│   ├── payrollController.js                           # Controls payroll and salary processing
+│   │	│   ├── attendanceController.js                        # Controls attendance logic
+│   │   │   └── domUtils.js                                    # Reusable DOM helper functions ( Loaders, Models, etc.)
+│   │   │
+│   │   ├── services/                                          # Service - handle API calls and data communication
+│   │	│   ├── apiService.js                                  # Base API configuration (fetch wrapper, headers)
+│   │	│   ├── authService.js                                 # Auth-related API calls
+│   │	│   ├── employeeView.js                                # Employee CRUD API
+│   │	│   ├── depertmentView.js                              # Department data API
+│   │	│   ├── payrollService.js                              # Payroll CRUD and reports API
+│   │   │   └── attendanceServic.js                            # Attendance/Leave API Calls
 │   │   ├── utils/
-│   │   │   └── domUtils.js
+│   │	│   ├── formatDate.js                                  # Date formatting 
+│   │	│   ├── validation.js                                  # Input validation helpers
+│   │	│   ├── constants.js                                   # Shared constants (API endpoint, roles)
+│   │   │   └── storage.js                                     # Local/session storage helpers (token, cache)
 │   │   └── main.js
 │   │   
 │   └── data/                     
 │       ├── employees.json
-│       └── payroll.json
+│       ├── payroll.json
+│       ├── departtment.json
+│       └── attendance.json
 ├── static/                                     # Linked from backend for FastAPI
 │   └── (symlink or copy of frontend/public)           
 ├── .gitignore 
 └── README.md
+
+Core HR Entities departments, employees, job_position, attendance, leave_request, payroll 
+Training and Development training_course, training_records
+User Management & Security users, roles, permission, permission_roles, login_attempts 
+
+Data Flow 
+	user click "View Payroll" -> 
+		payrollController.js handles click -> 
+			payrollService fetchs from FastAPI /api/payroll -> 
+				payroll.js model formats the data ->
+					payrollView.js render to DOM using tamplate in/public/components/card.html ->
+						styled by /styles/pages/payroll.css
+						
+	
