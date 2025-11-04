@@ -4,7 +4,7 @@ Full-Stack-HRMS-Directory-Structure
 │   ├── app/                                    	
 │   │   ├── console/                         	
 │   │   ├── Exceptions/                           	
-│   │ 	├── emdpoints/ 
+│   │ 	├── endpoints/ 
 │   │   │   ├── controllers/    
 │   │   │   │   ├── AuthController.py                                # Login / Register / Logout
 │   │   │   │   ├── EmployeeController.py                            # CRUD for employees      
@@ -120,10 +120,10 @@ Full-Stack-HRMS-Directory-Structure
 │   │   ├── services/                                          # Service - handle API calls and data communication
 │   │	│   ├── apiService.js                                  # Base API configuration (fetch wrapper, headers)
 │   │	│   ├── authService.js                                 # Auth-related API calls
-│   │	│   ├── employeeView.js                                # Employee CRUD API
-│   │	│   ├── depertmentView.js                              # Department data API
+│   │	│   ├── employeeService.js                             # Employee CRUD API
+│   │	│   ├── departmentService.js                           # Department data API
 │   │	│   ├── payrollService.js                              # Payroll CRUD and reports API
-│   │   │   └── attendanceServic.js                            # Attendance/Leave API Calls
+│   │   │   └── attendanceService.js                           # Attendance/Leave API Calls
 │   │   ├── utils/
 │   │	│   ├── formatDate.js                                  # Date formatting 
 │   │	│   ├── validation.js                                  # Input validation helpers
