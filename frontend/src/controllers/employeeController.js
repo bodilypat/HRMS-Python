@@ -1,28 +1,38 @@
-// Frontend/src/controllers/employeeController.js 
+//src/controllers/employeeView.js
 
-import { EmployeeModel } from "../models/employeeModel.js";
-import { employeeView } from "../views/employeeView.js";
+import employeeView from '../views/employeeView.js';
+import employeeService from '../services/employeeService.js';
 
-export const employeeController = {
-    async init(container) {
-        employeeView.renderForm(container);
-        const employees = await EmployeeModel.fetchAll();
+const employeeController = {
+    init() {
+        const container = document.getElementById('mainContent');
+        employeeView.render(container);
+        this.loadEmployees();
+
+        employeeView.bindFormSubmit(this.addEmployee);
+        employeeView.bindDelete(this.deleteEmployee);
+        employeeView.bindEdit(this.updateEmployee);
+    },
+    
+    async loadEmployees() {
+        const employees = await employeeService.getAll();
         employeeView.renderTable(employees);
+    },
 
-        employeeView.bindAdd(async (data) => {
-            await EmployeeModel.create(data);
-            employeeView.renderTable(EmployeeModel.getCached());
-        });
+    async addEmployees(data) {
+        await employeeService.create(data);
+        employeeController.loadEmployee();
+    },
 
-        employeeView.bindEdit(async (id, updates) => {
-            await EmployeeModel.update(id, updates);
-            employeeView.renderTable(EmployeeModel.getCached());
-        });
+    async deleteEmployee(id) {
+        await employeeService.delete(id);
+        employeeController.loadEmployee();
+    },
 
-        employeeView.bindDelete(async (id) => {
-            await EmployeeModel.delete(id);
-            employeeView.renderTable(EmployeeModel.getCached());
-        });
+    async updateEmployee(id, data) {
+        await employeeService.update(id, data);
+        employeeController.loadEmployees();
     }
 };
 
+export default employeeController;
