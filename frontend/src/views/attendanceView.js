@@ -1,48 +1,55 @@
 //src/views/attendanceView.js 
 
-import domUnit from '../controllers/domUnits.js';
+import domUtils from '../controllers/domUtils.js';
 
+/* Attendance view, Responsible for rendering attendance records and handling user interactions */
 const attendanceView = (() => {
-    /* DOM Elements */
-    const attendanceTable = document.getElementById('attendanceTableBody');
-    const refreshBtn = document.getElementById('refreshAttendance');
-    const attendanceCount = document.getElementById('attendanceCount');
+    const getElements = () => ({
+        tableBody: document.getElementById('attendanceTableBody'),
+        ReferenBtn: document.getElementById('refreshAttendance'),
+        countLabel: document.getElementById('attendanceCount')
+    });
 
-    /* Render attendance rows */
-    const renderAttendanceTable = (attendanceList = []) => {
-        attendanceTable.innerHTML = '';
-        
-        if (attendanceList.length === 0){
-            attendanceTable.innerHTML = `
-                <tr>
-                    <td colspan="8" class="text-center text-muted">No attendance records found</td>
-                </tr>
-            `;
-            attendanceCount.textContent = 0;
+    /* Render the attendance table, @param {Array<Object> } attendanceList - List of attendance records */
+    const renderAttendanceTable =  (attendanceList = []) => {
+        const { tableBody, countLabel } = getElements();
+        if (!tableBody) return;
+
+        domUtils.clearElement(tableBody);
+
+        if (!attendanceList.length) {
+            domUtils.setHTML(
+                tablebody,
+                `<tr>
+                    <td colspan="8" class="text-center text-muted">
+                        No attendance record found.
+                    </td>
+                </tr>`
+            );
+            if (countLabel) countLabel.textContent = '0';
             return;
         }
 
-        attendanceList.forEach(a => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${a.attendance_id}</td>
-                <td>${a.employee_id}</td>
-                <td>${a.formatDate(a.attendance_date)}</td>
-                <td>${a.check_id ? formatTime(a.check_in) : '-'}</td>
-                <td>${a.check_out ? formatTime(a.check_out) : '-'}</td>
-                <td><span class="badge bg-${getStatusColor(a.status)}">${a.status}</span><td>
-                <td>${a.notes ? sanitizeText(a.notes) : '-'}</td>
-                <td>${formatDateTime(a.updated_at)}</td>
-            `;
-            attendanceTable.appendChild(row);
-        });
-        
-        attendanceCount.textContent = attendanceList.length;
+        const rowsHTML = attendanceList 
+            .map(a => ` 
+                <tr data-id="{a.attendance_id}">
+                    <td>${a.attendance_id}</td>
+                    <td>${a.employee_id}</td>
+                    <td>${a.formatDate(a.attendance_date)}</td>
+                    <td>${a.check_in ? formatTime(a.check_in) : '-'}</td>
+                    <td>${a.check_out ? formatTime(a.check_out) : '-'}</td>
+                    <td><span class="badge bg-${getStatusColor(a.status)}">${sanitizeText(a.status)}</span></td>
+                    <td>${a.notes ? sanitizeText(a.notes) : '-'}</td>
+                    <td>${formatDateTime(a.updated_at)}</td>
+                </tr>
+            `).join('');
+        domUtils.setHTML(tableBody, rowsHTML);
+        if (countLabel) countLabel.textContent = attendanceList.length.toString();
     };
 
-    /* Utility: color status badge */
+    /* Utilities: Get badge color for attendance status. */
     const getStatusColor = (status) => {
-        switch (status) {
+        switch(status) {
             case 'Present': return 'success';
             case 'Absent': return 'danger';
             case 'Leave': return 'warning';
@@ -51,52 +58,61 @@ const attendanceView = (() => {
         }
     };
 
-    /* Utility: format date */
+    /* Format a date */
     const formatDate = (dateString) => {
+        if (!dateString) return '-';
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'short',
-            day: 'numneric'
+            day: 'numeric'
         });
     };
 
-    /* Utility: format datetime */
+    /* Format date + time to human-readable form. */
     const formatDateTime = (dateString) => {
         if (!dateString) return '-';
-        return date.toLocaleDateString('en-US', {
+        const date = new Date(dateString);
+        return date.toLocaleString('en-US',  {
             year: 'numeric',
             month: 'short',
             day: 'numeric',
+            hour: '2-digit',
             hour: '2-digit',
             minute: '2-digit'
         });
     };
 
-    /* Utility: format time */
+    /* Format a time string (HH:MM:SS -> 12 hour format) */
     const formatTime = (timeValue) => {
-        /* Handle both string (from backend) or Date object */
+        if (!timeValue) return '-';
         const date = new Date(`1970-01-01T${timeValue}`);
-        return date.toLocaleTimeString('en-US', { hour: '2-digit' });
+        return date.toLocaleDateString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
     };
 
-    /* Utility: santize text for HTML output */
+    /* Sanitize text for safe Html OUTPUT */
     const sanitizeText = (text) => {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
     };
 
-    /* Bind refresh event */
+    /* Event binding: Bind refresh button click event. */
     const bindRefresh = (handler) => {
+        const { refreshBtn } = getElements();
         refreshBtn?.addEventListener('click', handler);
     };
 
-    /* Public interface */
+    /* Pubic interface */
     return {
         renderAttendanceTable,
         bindRefresh
     };
+
 })();
 
 export default attendanceView;
+

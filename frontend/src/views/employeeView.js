@@ -1,6 +1,6 @@
 //src/views/employeeView.js
 
-import domUtils rom '../controllers/domUtils.js';
+import domUtils from '../controllers/domUtils.js';
 
 const employeeView = (() => {
     /* DOM Elements (deffered lookup for dynamic rendering) */
