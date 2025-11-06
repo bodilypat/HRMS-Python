@@ -1,11 +1,9 @@
 //src/services/attendanceService.js 
 
-const BASE_URL = '/endpoints/attendances';
+const BASE_URL = '/api/attendances';
 
 const attendanceService = (() => {
-    /* Fetch all attendance records
-     * @return {Promise<Array> list of attendance objects}
-     */
+   
     const getAllAttendances = async () => {
         try {
             const response = await fetch(BASE_URL);
@@ -17,10 +15,6 @@ const attendanceService = (() => {
         }
     };
 
-    /* Fetch attendance records for a specific employee
-     * @param {number} employeeId
-     * @returns {Promise<Array}
-     */
     const getAttendanceByEmployee = async (employeeId) => {
         try {
             const response = await fetch(`${BASE_URL}/employee/${employeeId}`);
@@ -32,10 +26,7 @@ const attendanceService = (() => {
         }
     };
 
-    /* Fetch a single attendance record by ID 
-     * @param {number}  id
-     * @return {Promise<Object>}
-    */
+   
     const getAttendanceById = async (id) => {
         try {
             const response = await fetch(`${BASE_URL}/${id}`);
@@ -47,10 +38,7 @@ const attendanceService = (() => {
         }
     };
 
-    /* Create a new attendance record 
-     * @param {Object} data
-     * @return {PromiseObject} 
-    */
+    
     const createAttendance = async (data) => {
         try {
             const response = await fetch(BASE_URL, {
@@ -66,11 +54,7 @@ const attendanceService = (() => {
         }
     };
 
-    /* Update ane existing attendance record 
-     * @param {number} id
-     * @param {Object} data
-     * @return {Promise<Object>}
-     */
+  
     const updateAttendance = async (id, data) => {
         try {
             const response = await fetch(`${BASE_URL}/${id}`, {
@@ -86,10 +70,6 @@ const attendanceService = (() => {
         }
     };
 
-    /* Delete an attendance record
-     * @param {number} id 
-     * @returns {Promise<void>}
-     */
     const deleteAttendance = async (id) => {
         try {
             const response = await fetch(`${BASE_URL}/${id}`, {

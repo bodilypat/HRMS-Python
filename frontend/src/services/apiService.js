@@ -1,105 +1,95 @@
 //src/services/apiService.js 
 
-/* --Base API service -- */
+/* Centralized API service (fetch wrapper): Provides unified error handling, headers, and timeout support */
+const BASE_URL = import.meta.env.VITE_API_BASE || '/api';
 
-/*  Handle HTTP requests, headers, and response parsing 
- * Used by feature services (employeeService , PayrollService) 
-*/
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/'
-
-/* -- Centrialized API service with standard methods -- */
+/* CORE: request methods */
 const apiService = {
-    /* GET request 
-     * @papram {string} endpoint API endpoint 
-     * @returns {Promise<any>} Response data
-    */
-   async get(endpoint) {
-        return requestAnimationFrame(endpoint, { method: 'GET' });
-   },
+    async get(endpoint, params = null) {
+        const url = buildUrl(endpoint, params);
+        return request(url, { method: 'GET'});
+    },
 
-   /* POST request 
-    * @param {string} endpoint API endpoint
-    * @param {object} body Request payload 
-    * @ returns {Promise<any>} Response data 
-    */
-    async post(endpoint, body) {
+    async post(endpoint, body){
         return request(endpoint, { method: 'POST', body });
     },
 
-    /* PUT request 
-     * @param {string} endpoint API endpoint
-     * @param {object} body request payload 
-     * @returns {Promise<any>} Response data
-    */
-    aysnc put(endpoint, body) {
+    async put(endpoint, body) {
         return request(endpoint, { method: 'PUT', body });
-    },
-
-    /* PATCH request 
-     * @param {string} endpoint API endpoint
-     * @param {object} body request payload 
-     * @returns {promise<any>} Response data
-     */
+    }, 
+    
     async patch(endpoint, body) {
-        return requestAnimationFrame(endpoint, { method: 'PATCH', body});
+        return request(endpoint, { method: 'PATCH', body });
     },
-
-    /* DELETE request
-     * @param {string} endpoint API endpoint 
-     * @return {Promise<any>} Response data or true if successful 
-    */
     async delete(endpoint) {
-        return request(endpoint, { method: 'DELETE' });
-    }
+        return requestAnimationFrame(endpoint, { method: 'DELETE' });
+    },
 };
 
-/* ======== Interal Helpers ======== */
-/* Main fetch wrapper with unified error and timeout handling */
+/* INTERNAL HELPERS: Main fetch wrapper with error and timeout handling */
 async function request(endpoint, options = {}) {
-    const url = `${BASE_URL}${endpoint}`;
+    const url = endpoint.startsWith('http') ? endpoint: `${BASE_URL}${endpoint}`;
     const config = {
         method: options.method || 'GET',
-        headers: getHeaders(),
-        body: options.body ? JSON.stringify(options.body) : underfined
+        Headers: getHeaders(options.body),
+        body: prepareBody(optionas.body),
     };
 
     try {
-        const response = await fetchWithTimeOut(url, config);
+        const response = await fetchWithTimeout(url, config);
         return await handleResponse(response);
     } catch (error) {
-        console.error(` API error [${config.method} ${url}]:`, error);
-        throw error;
+        console.error(`[API ERROR] ${config.method} ${url}`, error);
+        throw formatNetworkError(error);
     }
 }
 
-/* Attach default headlers (JSON + Bearer token) */
-function getHeaders() {
-    return {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getToken() || ''}`
-    };
+/* INTERNAL HELPERS: Generate headers, including token if available */
+function getHeaders(body = null) {
+    const headers = {};
+
+    /* Only add JSON content type for non-FormData bodies */
+    if (!(body instanceof FormData)) {
+        headers['Content-Type'] = 'application/json';
+    }
+
+    const token = getToken();
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
+    return headers;
 }
 
-/* Extract token from storage */
+/* INTERNAL HELPERS: Safety handle various body types (JSON / FormData) */
+function prepareBody(body) {
+    if (!body) return undefined;
+    if (body instanceof FormData) return body;
+    return JSON.stringify(body);
+}
+
+/* INTERNAL HELPERS: Read auth token from localStorage */
 function getToken() {
     return localStorage.getItem('token');
 }
 
-/* Handle HTML response consistently */
+/* Handle API responses consistently */
 async function handleResponse(response) {
-    /* Handle non-2xx responses */
+    const contentType = response.headers.get('Content-Type') || '';
+
+    /* Try parsing JSON safety */
+    const data = contentType.includes('application/json')
+        ? await safeJson(response)
+        : await response.text();
+
     if (!response.ok) {
-        const errorData = await safeJson(response);
-        const message = errorData?.message || `HTML Error ${response.status}`;
-        throw new Error(message);
+        const message = data?.message || `HTTP Error ${response.status}`;
+        throw { status: response.status, message, data };
     }
 
-    /* Handle empty body( No Content ) */
-    const text = await response.text();
-    return text ? JSON.parse(text) : true;
+    /* Return parsed JSON or row text */
+    return data || true;
 }
 
-/* Safety parse JSON without breaking */
+/* Safe JSON parsing */
 async function safeJson(response) {
     try {
         return await response.json();
@@ -108,14 +98,34 @@ async function safeJson(response) {
     }
 }
 
-/* Optional: Timeout wrapper to avoid hanging fetch calls */
-function fetchWithTimeOut(resource, options, timeout = 10000) {
+/* Adds a timeout to fetch requests */
+function fetchWithTimeout(resource, options, timeout = 15000) {
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), timeout);
 
-    return fetch(resource, {...options, signal: controller.signal })
-        .finally(() => clearTimeout(id));
+    return fetch(resource, {...options, signal: controller.signal }).finally(() => 
+        clearTimeout(id)
+    );
+}
+
+/* Helper: Build query parameters for GET requests */
+function buildUrl(endpoint, params) {
+    if (!params) return endpoint;
+    const query = new URLSearchParams(params).toString();
+    return `${endpoint}?${query}`;
+}
+
+/* Helper: Normalize network errors for controllser */
+function formatNetworkError(error) {
+    if (error.name === 'AbortError') {
+        return new Error('Request timed out. Please try again. ');
+    }
+    if (error.message === 'Failed to fetch') {
+        return new Error('Network error: Unable to reach the server.');
+    }
+    return error;
 }
 
 export default apiService;
+
 
