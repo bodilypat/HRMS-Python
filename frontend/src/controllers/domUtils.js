@@ -1,174 +1,165 @@
 //src/controllers/domUtils.js 
 
-/* Centralized utility for reusable DOM mainipulation across views.
- * Used by employeeView, payrollView, authView 
-*/
-
+/* Reusable UI helpers for views and controllers */
 const domUtils = (() => {
     
-    /* ------- Loaders ------- */
-
-    /* Display a full-screen , container - level loading spinner
-     * @parm {HTMLElement} [container=document.body] 
-    */
+    /* LOADER UTILITIES: show a loading spinner overlay inside a container */
     const showLoader = (container = document.body) => {
-        if (container.querySelector('.dom-loader')) return // present duplicates
+        if (container.querySelector('.dom-loader')) return; // Prevent duplicates
+
         const loader = document.createElement('div');
         loader.classList.add('dom-loader');
         loader.innerHTML = `
             <div class="dom-loader-overlay">
                 <div class="dom-spinner"></div>
             </div>
-        `;
+            `;
         container.appendChild(loader);
     };
 
-    /* Remove loader from DOM.
-     * @param {HTMLElement} [container=document.body]
-    */
+    /* Remove loader from container */
     const hideLoader = (container = document.body) => {
         const loader = container.querySelector('.dom-loader');
-        if (loader) loader.remove();
-    };
-
-    /* ---- Dispay a temporary alert message.----*/
-
-    /*
-     * @param {string} * message - Message text.
-     * @param {'info' | 'success' | 'warning' | 'error'} [type='info']
-     * @param {number} [duration=300]
-     * @param {HTMLElement} [container=document.body]
-     */
-    const showAlert = (message, type ='info', duration = 3000, container = document.body) => {
+        if (loader) loader.remove()
+    }
+    
+    /* ALERT UTILITIES: Display a temporary message */
+    const showAlert = (message, type = 'info', duration = 3000, container = document.body) => {
         const alert = document.createElement('div');
         alert.className = `dom-alert dom-alert-${type}`;
         alert.textContent = message;
 
         container.appendChild(alert);
+
         setTimeout(() => {
             alert.classList.add('fade-out');
-            setTimeout(() => alert.remove(), 500);
+            setTimeout(() => alert.remove(), 400);
         }, duration);
-    } ;
+    };
 
-    /* --------Modals --------*/
+    /* TOAST UTILITIES: short, non-blocking alert variant */
+    const showToast = (message, type = 'info', duration =  2500) => {
+        const toast = document.createElement('div');
+        toast.className = `dom-toast dom-toast-${type}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
 
-    /* Display a modal dialog 
-     * @param {string} title
-     * @parm {string} contentHTML
-     * @param {Function|null} [onClose=null
-    */
-    const showModal = (title, contentHTML, onClose = null) => {
+        /* Trigger fade animation */
+        requestAnimationFrame(() => toast.classList.add('visible'));
+
+        setTimeout(() => {
+            toast.classList.remove('visible');
+            setTimeout(() => toast.remove(), 400);
+        }, duration)
+    };
+
+    /* MODAL UTILITIES: Show a modal with content */
+    const showModal = (title = '', contentHTML = '', onClose = null) => {
         const modal = document.createElement('div');
         modal.classList.add('dom-modal-overlay');
-        modal.innerHTML = `
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-modal', 'true');
+
+        modal.innerHTML = ` 
             <div class="dom-modal">
                 <div class="dom-modal-header">
-                    <h4>${title}</h4>
-                    <button class="close-modal-btn" aria-label="Close">&time;</button>
+                    <h5 class="dom-modal-title">${title}</h5>
+                    <button class="close-modal-btn" aria-label="Close">&times;</button>
                 </div>
                 <div class="dom-modal-body">${contentHTML}</div>
             </div>
         `;
         document.body.appendChild(modal);
 
-        // Close modal events
-        modal.querySelector('.close-modal-btn').addEventListener('click', () => closeModal(modal, onClose));
+        /* Close modal when clicking overlay or close button */
+        modal.querySelector('.Close-modal-btn').addEventListener('click', () => closeModal(modal, onClose));
         modal.addEventListener('click', (e) => {
             if (e.target === modal) closeModal(modal, onClose);
         });
+
+        /* ESC key closes modal */
+        const handleEsc = (e) => {
+            if (e.key === 'Escape') {
+                closeModal(modal, onClose);
+                document.removeEventListener('keydown', handleEsc);
+            }
+        };
+        document.addEventListener('keydown', handleEsc);
+
+        return modal;
     };
 
-    /* ------- Close and remove a modal ------- */
-
-    /*
-     * @param {HTMLElement} modal
-     * @param {Function|null} [onControll] 
-    */
+    /* Close and remove a modal */
     const closeModal = (modal, onClose = null) => {
-        modal.classList.add('fade-out');
-        modal.remove();
+        if (!modal) return;
+        modal.classList.add('closing');
         setTimeout(() => {
             modal.remove();
-            if (onClose) onClose();
+            if (typeof onClose === 'function') onClose();
         }, 250);
     };
 
-    /* ------- Element Builders ------- */
-
-    /*
-     * @param {string} text 
-     * @param {string} [className]
-     * @param {HTMLTableCellElement}
-    */
-    const createCell = (text, className = '') => {
+    /* ELEMENT HELPERS: Create a table cell */
+    const createCell = (text = '', className = '') => {
         const td = document.createElement('td');
         if (className) td.classList.add(className);
-        td.textContext = text;
+        td.textContent = text;
         return td;
     };
 
-    /* -------- Create a reusable button element. -------- */
-
-    /*
-     * @param {string} label 
-     * @param {string} className
-     * @param {Function} onClick 
-     * @param {HTMLButtonElement}
-     */
-    const createButton = (label, className, onClick) => {
+    /* Create a button element */
+    const createButton =(label, className = '', onClick = null, attrs = {}) => {
         const btn = document.createElement('button');
         btn.className = className;
-        btn.textContent = label;
-        if (typeof onClick === 'function') btn.addEventListener('click', onClick);
+        btn.textContext = label;
+        if (onClick) btn.addEventListener('click', onClick);
+
+        /* Add custom attributes  */
+        Object.entries(attrs).forEach(([key, value]) => {
+            btn.setAttribute(key, value);
+        });
         return btn;
     };
 
-    /* -------- Remoce all child of an element. ------- */
-
-    /*
-     * @param {HTMLElement} element
-    */
+    /* Remove all children from an element */
     const clearElement = (element) => {
         if (!element) return;
         while (element.firstChild) element.removeChild(element.firstChild);
     };
 
-    /* -------- Safety inject HTML into an element --------*/
-    /*
-     * Use only with trust content
-     * @param {HTMLElement} element 
-     * @param {string} htmlString
-     */
+    /* Safety set HTML content */
     const setHTML = (element, htmlString) => {
         if (!element) return;
         element.innerHTML = '';
-        element.insertAdjaceHTML('beforeend', htmlString);
+        element.insertAdjacentHTML('beforeend', htmlString);
     };
 
-    /* --------Visibility Helpers------- */
-    /* Toggle element visibility.
-     * @param {HTMLElement} el
-     * @param {boolean} show 
-    */
+    /* Toggle visibility of an element */
     const toggleVisibility = (el, show = true) => {
         if (!el) return;
         el.style.display = show ? '' : 'none';
     };
 
-    /* -------Public API-------- */
+    /* EXPORTED API */
     return {
+        /* Loaders */
         showLoader,
         hideLoader,
+
+        /* Alert & Toast */
         showAlert,
+        showToast,
+        /* Modals */
         showModal,
         closeModal,
-        createCell, 
+        /* DOM Helpers */
+        createCell,
         createButton,
         clearElement,
         setHTML,
-        toggleVisibility
+        toggleVisibility,
     };
 })();
 
-export default domUtils;
+export default domUtils
+

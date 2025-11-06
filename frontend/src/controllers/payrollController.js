@@ -1,28 +1,28 @@
-//src/contrpllers/payrollController.js 
+//src/controllers/payrollController.js 
 
-import payrollService from '../services/payrollService.js';
+import domUtils from './domUtils.js';
 import payrollView from '../views/payrollView.js';
+import payrollService from '../services/payrollService.js';
 
 const payrollController = (() => {
-    const loadPayrolls = async () => {
-        try {
-            const payrolls = await payrollService.getAll();
-            payrollView.rederPayrollTable(payrolls);
-        } catch (error) {
-            payrollView.showError('Enable to load payroll data.');
-        }
+    const init = () => {
+        payrollView.bindRefresh(loadPayrolls);
+        loadPayrolls();
     };
 
-    const markAsPaid = async (payrollId) => {
+    const loadPayrolls = async () => {
+        domUtils.showLoader(document.getElementById('payrollSection'));
         try {
-            const updated = await payrollService.updateStatus(payrollId, 'Paid');
-            payrollView.showAlert(`Payroll #${payrollId} marked as Paid.`, 'success');
-            loadPayrolls();
-        } catch {
-            payrollView.showAlert('Failed to update payroll status.', 'danger');
+            const data = await payrollService.getPayrolls();
+            payrollView.renderPayrollTable(data);
+            domUtils.showToast('Payroll data updated', 'success');
+        } catch (error) {
+            domUtils.showAlert('Failed to load payroll data', 'danger');
+        } finally {
+            domUtils.hideLoader(document.getElementById('payrollSection'));
         }
     };
-    return { loadPayrolls, markAsPaid };
+    return { init };
 })();
 
 export default payrollController;
