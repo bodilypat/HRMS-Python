@@ -1,83 +1,80 @@
-//src/services/employeeService.js 
+// src/services/employeeService.js 
 
-import apiService from './apiService.js';
+import api from './api';
 
-const ENDPOINT = '/employees';
-
-/* Handles Employee API request and data access 
- * @nodule employeeService 
-*/
-const employeeService = {
-    /* Fetch all emloyees , @returns {Promise<Array>} List of employees */
-
-    async getAll() {
-        try {
-            const data = await apiService.get(ENDPOINT);
-            return Array.isArray(data) ? data : [];
-        } catch (error) {
-            console.error('Error fetching employees:', error);
-            throw new Error('Failed to fetch employees');
-        }
-    },
-
-    /*  Fetch single employee by ID 
-     * @param {number|string} id Employee ID 
-     * @return {Promise<Object|null>} Employee object or null
-    */
-    async getById(id) {
-        if (!id) throw new Error('Employee ID is required');
-        try {
-            return await apiService.get(`${ENDPOINT}/${id}`);
-        } catch (error) {
-            console.error(`Error fetching employee [${id}]:`, error);
-            throw new Error('Failed to fetch employee dtails');
-        }
-    },
-
-    /* Create a new employee 
-     * @param {Object} employeeData Employee payload 
-     * @returns {Promise<Object> Created employee object 
-    */
-   async create(employeeData) {
-        if (!employeeData) throw new Error('Employee data is required');
-        try {
-            return await apiService.post(ENDPOINT, employeeData);
-        } catch (error) {
-            console.error('Error creating employee:', error);
-            throw new Error('Failed to create employee');
-        }
-    },
-
-    /* Update an existing employee 
-     * @param {number|string} id employee ID
-     * @param {Object} updates fields to update
-     * @return {Promise<Object> Updated employee object }
-    */
-    async update(id, updates) {
-        if (!id) throw new Error('Employee ID is required');
-        try {
-            return await apiService.put(`${ENDPOINT}/${id}`, updates);
-        } catch (error) {
-            console.error(`Error updating employee [${id}]:`, error);
-            throw new Error('Failed to update employee');
-        }
-    },
-
-    /* Delete an employee
-     * @param {number|string} id Employee ID
-     * @returns {Promise<boolean>} True if delete successfully
-     */
-    async delete(id) {
-        if (!id) throw new Error('Employee ID is required');
-        try {
-            await apiService.delete(`${ENDPOINT}/ ${id}`);
-            return true; 
-        } catch (error) {
-            console.error(`Error deleting employee [${id}]:`, error);
-            throw new Error('Failed to delete employee');
-        }
-    }
+/* Employee Service
+   Handles all employee-related API calls:
+   - CRUD Operations
+   - Profile Management
+   - Document Management
+   - Search & Filters
+ */
+// Get all employees with optional query params(search, pagination, department)
+export const getEmployees = async (params = {}) => {
+  const response = await api.get('/employees', { params });
+  return response.data;
 };
 
-export default employeeService;
+// Get employee by ID
+export const getEmployeeById = async (id) => {
+  const response = await api.get(`/employees/${id}`);
+  return response.data;
+};
+// Create a new employee
+export const createEmployee = async (employeeData) => {
+  const response = await api.post('/employees', employeeData);
+  return response.data;
+};
+// Update an existing employee
+export const updateEmployee = async (id, employeeData) => {
+  const response = await api.put(`/employees/${id}`, employeeData);
+  return response.data;
+};
+// Delete an employee
+export const deleteEmployee = async (id) => {
+  const response = await api.delete(`/employees/${id}`);
+  return response.data;
+};
+// Upload employee profile picture
+export const uploadProfilePicture = async (id, file) => {
+  const formData = new FormData();  
+    formData.append('profilePicture', file);
+    const response = await api.post(`/employees/${id}/profile-picture`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return response.data;
+};
+// Upload employee document
+export const uploadEmployeeDocument = async (id, file) => {
+    const formData = new FormData();    
+    formData.append('document', file);
+    const response = await api.post(`/employees/${id}/documents`, formData, {
+    headers: {
+        'Content-Type': 'multipart/form-data',
+    },
+  });
+  return response.data;
+};
+// Search employees by name, email or department
+export const searchEmployees = async (query) => {
+  const response = await api.get('/employees/search', { params: { q: query } });
+  return response.data;
+};
+// Fetch employee profiles (can combine with getEmployeeById)
+export const getEmployeeProfiles = async (params = {}) => {
+  const response = await api.get('/employees/profiles', { params });
+  return response.data;
+}
+// Fetch employee documents
+export const getEmployeeDocuments = async (id) => {
+  const response = await api.get(`/employees/${id}/documents`);
+  return response.data;
+};
+// Delete employee document
+export const deleteEmployeeDocument = async (employeeId, documentId) => {
+  const response = await api.delete(`/employees/${employeeId}/documents/${documentId}`);
+  return response.data;
+};
 

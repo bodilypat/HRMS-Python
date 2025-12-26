@@ -1,96 +1,67 @@
 //src/services/attendanceService.js 
 
-const BASE_URL = '/api/attendances';
+import api from "./api";
 
-const attendanceService = (() => {
-   
-    const getAllAttendances = async () => {
-        try {
-            const response = await fetch(BASE_URL);
-            if (!response.ok) throw new Error(`Error feching attendances: ${response.status}`);
-            return await response.json();
-        } catch (error) {
-            console.error('attendanceService.getAllAttendances:', error);
-            throw error;
-        }
-    };
+/* 
+   Attendance Service
+   Handles all attendance-related API calls:
+    - Check In / Clock Out
+    - Attendance listing
+    - Employee attendance details
+    - Reports & summaries
+*/
 
-    const getAttendanceByEmployee = async (employeeId) => {
-        try {
-            const response = await fetch(`${BASE_URL}/employee/${employeeId}`);
-            if (!response.ok) throw new Error(`Error fetching employee attendances: ${response.status}`);
-            return await response.json();
-        } catch (error) {
-            console.error('attendanceService.getAttendanceById:', error);
-            throw error;
-        }
-    };
+// Check In (Employee)
+export const checkIn = async (employeeId) => {
+  const response = await api.post('/attendance/checkin', { employeeId });
+  return response.data;
+};
 
-   
-    const getAttendanceById = async (id) => {
-        try {
-            const response = await fetch(`${BASE_URL}/${id}`);
-            if (!response.ok) throw new Error(`Attendance not found: ${response.status}`);
-            return await response.json();
-        } catch (error) {
-            console.error('attedanceService.getAttendanceById:', error);
-            throw error;
-        }
-    };
+// Clock Out (Employee)
+export const clockOut = async (employeeId) => {
+  const response = await api.post('/attendance/clockout', { employeeId });
+  return response.data;
+};
 
-    
-    const createAttendance = async (data) => {
-        try {
-            const response = await fetch(BASE_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            if (!response.ok) throw new Error(`Error creating attendance: ${response.status}`);
-            return await response.json();
-        } catch (error) {
-            console.error('attendanceService.createAttendance:', error);
-            throw error;
-        }
-    };
+// Get logged-in employee attendance records
+export const getEmployeeAttendance = async (employeeId, params) => {
+  const response = await api.get(`/attendance/employee/${employeeId}`, { params });
+  return response.data;
+};
 
-  
-    const updateAttendance = async (id, data) => {
-        try {
-            const response = await fetch(`${BASE_URL}/${id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
-            });
-            if (!response.ok) throw new Error(`Error updating attendance: ${response.statgus}`);
-            return await response.json();
-        } catch (error) {
-            console.error('attendanceService.updateAttendance:', error);
-            throw error
-        }
-    };
+// Get all attendance records (HR / Admin)
+export const getAllAttendance = async (params) => {
+  const response = await api.get('/attendance/all', { params });
+  return response.data;
+};
 
-    const deleteAttendance = async (id) => {
-        try {
-            const response = await fetch(`${BASE_URL}/${id}`, {
-                method: 'DELETE'
-            });
-            if (!response.ok) throw new Error(`Error deleting attendance: ${response.status}`);
-        } catch (error) {
-            console.error('attendanceService.deleteAttendance:', error);
-            throw error;
-        }
-    };
+// Get attendance by employee ID
+export const getAttendanceByEmployeeId = async (employeeId, params) => {
+  const response = await api.get(`/attendance/employee/${employeeId}/records`, { params });
+  return response.data;
+};
 
-    /* Public API */
-    return {
-        getAllAttendances,
-        getAttendanceByEmployee,
-        getAttendanceById,
-        createAttendance,
-        updateAttendance,
-        deleteAttendance
-    };
-})();
+// Get attendance by date 
+export const getAttendanceByDate = async (date) => {
+  const response = await api.get('/attendance/date', { params: { date } });
+  return response.data;
+};
 
-export default attendanceService;
+// Get attendance summary (Dashboard / reports)
+export const getAttendanceSummary = async (params) => {
+  const response = await api.get('/attendance/summary', { params });
+  return response.data;
+};
+
+// Mark attendance manually (HR / admin)
+export const markAttendanceManually = async (attendanceData) => {
+  const response = await api.post('/attendance/mark-manual', attendanceData);
+  return response.data;
+};
+
+// Update attendance record (HR / Admin)
+export const updateAttendanceRecord = async (attendanceId, attendanceData) => {
+  const response = await api.put(`/attendance/${attendanceId}`, attendanceData);
+  return response.data;
+};
+

@@ -1,96 +1,75 @@
 //src/services/payrollService.js 
 
-import apiService from './apiService.js';
-import Payroll from './models/payroll.js';
+import api from '../api';
 
-/* Handles all API interactions related to payrolls : Converts row API data <-> Payroll model instances. */
-const payrollService = (() => {
+/* Payroll Service
+    Handle all payroll-related API calls:
+    - Generate payslips
+    - Payroll listing 
+    - Payslip details
+    - Salary structure & settings
+    - Report & download
+*/
 
-    /* READ: Fetch all payroll records */
-    const getAll = async () => {
-        try {
-            const data = await apiService.get('/payrolls');
-            return Array.isArray(data) ? data.map(Payroll.fromApi): [];
-        } catch (error) {
-            console.error('Error fetching payroll list:', error);
-            throw FormatError('Failed to load payrolls', error);
-        }
-    };
+// Get payroll list (HR / Admin)
+export const getPayrollList = async (params) => {
+    const response = await api.get('/payroll/list', { params });
+    return response.data;
+};
 
-    /* READ: Fetch single payroll by ID */
-    const getById = async (id) => {
-        try {
-            const data = await apiService.get(`/payrolls/${id}`);
-            return Payroll.fromApi(data);
-        } catch (error) {
-            console.error(`Error fetching payroll ID ${id}`, error);
-            throw formatError(`Failed to fetch payroll #${id}`, error);
-        }
-    };
+// Generate payslip for an employee (HR / Admin)
+export const generatePayslip = async (employeeId, month, year) => {
+    const response = await api.post('/payroll/generate', { employeeId, month, year });
+    return response.data;
+};
 
-    /* CREATE: Create new payroll record */
-    const create = async (payrollData) => {
-        try {
-            const payload = payrollData instanceof Payroll ? payrollData.toApi() : payrollData;
-            const data = await apiService.post('/payrolls', payload);
-            return Payroll.fromApi(data);
-        } catch (error) {
-            console.error('Error creating payroll:', error);
-            throw formatError('Failed to create payroll record', error);
-        }
-    };
-    /* UPDATE: Update payroll record by ID */
-    const update = async (id, payrollData) => {
-        try {
-            const payload = payrollData instanceof Payroll ? payrollData.toApi() : payrollData;
-            const data = await apiService.put(`/payrolls/${id}`, payload);
-            return Payroll.fromApi(data);
-        } catch (error) {
-            console.error(`Error updating payroll #${id}:`, error);
-            throw formatError(`Failed to update payroll #${id}`, error);
-        }
-    };
-    
-    /* UPDATE: Update only the payroll status (Paid/ Failed / Pending) */
-    const updateStatus = async (id, status) => {
-        try {
-            const data = await apiService.patch(`/payrolls/${id}/status`, { status });
-            return Payroll.fromApi(data);
-        } catch (error) {
-            console.error(`Error updating status for payroll #${id}:`, error);
-            throw formatError(`Failed to update payroll status`, error);
-        }
-    };
+// Get payroll / payslip by ID 
+export const getPayslipById = async (payslipId) => {
+    const response = await api.get(`/payroll/payslip/${payslipId}`);
+    return response.data;
+};
 
-    /* DELETE: Delete a payroll record */
-    const remove = async (id) => {
-        try {
-            await apiService.delete(`/payrolls/${id}`);
-            return true;
-        } catch (error) {
-            console.error(`Error deleting payroll #${id}:`, error);
-            throw formatError(`Failed to delete payroll #${id}:`, error);
-        }
-    };
+// Get logged-in employee's payslips
+export const getEmployeePayslips = async (employeeId, params) => {
+    const response = await api.get(`/payroll/employee/${employeeId}/payslips`, { params });
+    return response.data;
+};
 
-    /* HELPERS : Normalize and enrich errors for controllers */
-    const formatError = (context, error) => {
-        const message = 
-            error?.message ||
-            error?.data?.message || 
-            `${context || 'Operation failed'} due to network/server error.`;
-            return new Error(message);
-    };
+// Download payslip PDF
+export const downloadPayslipPDF = async (payslipId) => {
+    const response = await api.get(`/payroll/payslip/${payslipId}/download`, {
+        responseType: 'blob',
+    });
+    return response.data;
+};
 
-    /* PUBLIC API */
-    return {
-        getAll,
-        getById,
-        create,
-        update,
-        updateStatus,
-        remove,
-    };
-})();
+// Get payroll settings (salary structure)
+export const getPayrollSettings = async () => {
+    const response = await api.get('/payroll/settings');
+    return response.data;
+};
 
-export default payrollService;
+// Update payroll settings (HR / Admin)
+export const updatePayrollSettings = async (settings) => {
+    const response = await api.put('/payroll/settings', settings);
+    return response.data;
+};
+
+// Update payroll record (HR / Admin)
+export const updatePayrollRecord = async (payslipId, updates) => {
+    const response = await api.put(`/payroll/payslip/${payslipId}`, updates);
+    return response.data;
+};
+
+// Update payroll record (HR / Admin)
+export const updatePayrollRecord = async (payslipId, updates) => {
+    const response = await api.put(`/payroll/payslip/${payslipId}`, updates);
+    return response.data;
+};
+
+// Generate payroll report (HR / Admin)
+export const generatePayrollReport = async (params) => {
+    const response = await api.get('/payroll/report', { params, responseType: 'blob' });
+    return response.data;
+};
+
