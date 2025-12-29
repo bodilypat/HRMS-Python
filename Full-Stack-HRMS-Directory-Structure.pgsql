@@ -82,7 +82,8 @@ frontend/  # React /
 │   │	│   ├── Button.jsx
 │   │	│   ├── Input.jsx
 │   │	│   ├── Modal.jsx
-│   │	│   └── Loader.jsx
+│   │	│   ├── Loader.jsx
+│   │	│   └── index.js
 │   │   └── layout/
 │   │	    ├── Header.jsx
 │   │	    ├── Sidebar.jsx
@@ -117,12 +118,14 @@ frontend/  # React /
 │   │	│   ├── LeaveList.jsx                            # Leave history (employee / HR)
 │   │	│   ├── LeaveApproval.jsx                        # Approval / Reject leave
 │   │	│   ├── LeaveBalance.jsx                         # Available leave count
-│   │   │   └── LeaveDetails.jsx                         # Salary structure, allowance. deductions
+│   │	│   ├── LeaveDetails.jsx                         # Salary structure, allowance. deductions
+│   │   │   └── 
 │   │   ├── payroll/
 │   │	│   ├── PayrollList.jsx                          # List of salary records
 │   │	│   ├── GemeratePaysLip.jsx                      # Create monthy payslip
 │   │	│   ├── PayrollDetails.jsx                       # View paylist details
-│   │   │   └── PayrollSettings.jsx                      # Salary structure, allowance. deductions
+│   │	│   ├── PayrollSettings.jsx                      # Salary structure, allowance. deductions
+│   │   │   └── 
 │   │   ├── recruitment/
 │   │	│   ├── JobList.jsx                              # List of job openings
 │   │	│   ├── JobDetial.jsx                            # View job details
@@ -130,13 +133,15 @@ frontend/  # React /
 │   │	│   ├── EditJob.jsx                              # Update job posting
 │   │	│   ├── CandidateList.jsx                        # List of applications
 │   │	│   ├── CandidateDetails.jsx                     # View candidate profile
-│   │   │   └── ApplicationStatus.jsx                    # Approve / Reject candidate
+│   │	│   ├── ApplicationStatus.jsx                    # Approve / Reject candidate
+│   │   │   └── 
 │   │   └── report/
 │   │	    ├── AttendanceReport.jsx                     # Attendance analytics 
 │   │	    ├── LeaveReport.jsx                          # Leave summary and trends
 │   │	    ├── PayrollReport.jsx                        # Payroll summary & payslips
 │   │	    ├── EmployeeReport.jsx                       # Employee statistics
-│   │	    └── RecruitmentReport.jsx                    # Hiring & recruitment metrics
+│   │	    ├── RecruitmentReport.jsx                    # Hiring & recruitment metrics
+│   │	    └── index.js                                 # 
 │   │ 
 │   ├── services/
 │   │   ├── api.js                                       # axios / fetch configuration, interceptors
@@ -146,7 +151,7 @@ frontend/  # React /
 │   │   ├── attendanceService.js                         # Clock in/out, attendance list APIs
 │   │   ├── payrollService.js                            # Payroll generation, payslip, setting
 │   │   ├── recruitmentService.js                        # Job Posting , candidate applications
-│   │   ├── reportServices                               # Attendance, leave, payroll, employee reports
+│   │   ├── reportServices.js                               # Attendance, leave, payroll, employee reports
 │   │   └── dashboardService.js                          # Dashboard stats & recent ctivities
 │   ├── hooks/
 │   │   └── useAuth.js                                   # authenticate logic
