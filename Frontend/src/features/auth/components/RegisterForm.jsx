@@ -1,34 +1,27 @@
-//src/features/components/LoginForm.jsx 
-
+//src/features/auth/components/RegisterForm.jsx 
 import { useState } from "react";
-import { login } from "../services/authApi";
+import { register } from "../services/authApi";
 
-function LoginForm() {
-    const [formData, setFormData] = useState({
+function RegisterForm() {
+    const [fromData, setFormData] = useState({
+        name:"",
         email: "",
         password: "",
     });
 
-
     const handleChange = (e) => {
         setFormData({
-            ...formData,
-            [e.target.name]:e.target.value,
+            ...FormData,
+            [e.target.name]: e.target.value,
         });
     };
 
-    const handleSubmit = async (e) => {
+    const handlesubmit = async (e) => {
         e.preventDefault();
-        
+
         try {
-            const response = await login(formData);
-
-            localStorage.setItem(
-                "token",
-                response.data.token
-            );
-
-            alert("Login Successful");
+            await RegisterForm(formData); 
+            alert("Registration Successful");
         } catch (error) {
             console.error(error);
         }
@@ -36,6 +29,12 @@ function LoginForm() {
 
     return (
         <form onSubmit={handleSubmit}>
+            <input 
+                name="name"
+                placeholder="Full Name"
+                onChange={handlechange}
+            />
+
             <input 
                 name="email"
                 type="email"
@@ -50,9 +49,10 @@ function LoginForm() {
                 onChange={handleChange}
             />
 
-            <button type="submit">Login</button>
+            <button type="submit">Register</button>
         </form>
     );
 }
 
-export default Login;
+export default RegisterForm;
+
