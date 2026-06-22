@@ -8,3 +8,4 @@ export const calculateOccupancy =
         (occupied / total) * 100
     ).toFixed(2);
 };
+
