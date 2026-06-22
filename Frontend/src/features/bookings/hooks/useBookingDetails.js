@@ -1,54 +1,47 @@
 //src/features/bookings/hooks/useBookingDetails.js
-
 import { useEffect, useState } from "react";
 
-import {
-  getBookingById,
-} from "../services/bookingApi";
+import { getBookingById } from "../services/bookingApi";
 
 export const useBookingDetails = (
-  bookingId
+    bookingId 
 ) => {
-  const [booking, setBooking] =
-    useState(null);
+    const [booking, setBooking] = useState(null);
 
-  const [loading, setLoading] =
-    useState(false);
+    const [loading, setLoading] = useState(false);
 
-  const [error, setError] =
-    useState(null);
+    const [error, setError] = useState(null);
 
-  const fetchBooking = async () => {
-    if (!bookingId) return;
+    const fetchBooking = async () => {
+        if (!bookingId) return;
 
-    try {
-      setLoading(true);
-      setError(null);
+        try {
+            setLoading(true);
+            setError(null);
 
-      const data =
-        await getBookingById(
-          bookingId
-        );
+            const data = await getBookingById(
+                bookingId
+            );
 
-      setBooking(data);
-    } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          "Failed to load booking"
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+            setBooking(data);
+        } catch (err) {
+            setError(
+                err.response?.data?.message || "Failed to load booking"
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  useEffect(() => {
-    fetchBooking();
-  }, [bookingId]);
+    useEffect(() => {
+        fetchBooking();
+    }, [bookingId]);
 
-  return {
-    booking,
-    loading,
-    error,
-    refetch: fetchBooking,
-  };
+    return {
+        booking,
+        loading,
+        error,
+        refetch: fetchBooking,
+    };
 };
+

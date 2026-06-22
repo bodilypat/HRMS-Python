@@ -3,68 +3,63 @@
 import { useMemo, useState } from "react";
 
 export const useBookingFilters = (
-  bookings = []
+    bookings = []
 ) => {
-  const [filters, setFilters] =
-    useState({
-      search: "",
-      status: "",
-      checkInDate: "",
-    });
+    const [filters, setFilters] = 
+        useState({
+            search: "",
+            status: "",
+            checkInDate: "",
+        });
+    
+    const updateFilter = (
+        field,
+        value
+    ) => {
+        setFilters((prev) => ({
+            ...prev,
+            [field]: value,
+        }));
+    };
 
-  const updateFilter = (
-    field,
-    value
-  ) => {
-    setFilters((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
+    const clearFilters = () => {
+        setFilters({
+            search: "",
+            status: "",
+            checkInDate: "",
+        });
+    };
 
-  const clearFilters = () => {
-    setFilters({
-      search: "",
-      status: "",
-      checkInDate: "",
-    });
-  };
+    const filteredBookings = 
+        useMemo(() => {
+            return bookings.filter(
+                (booking) => {
+                    const matchesSearch = 
+                        !filters.search || booking.guestName 
+                            ?.toLowerCase()
+                            .includes(
+                                filters.search.toLowerCase()
+                            );
+                    
+                    const matchsStatus = 
+                        !filters.status || booking.status === filters.status ;
 
-  const filteredBookings =
-    useMemo(() => {
-      return bookings.filter(
-        (booking) => {
-          const matchesSearch =
-            !filters.search ||
-            booking.guestName
-              ?.toLowerCase()
-              .includes(
-                filters.search.toLowerCase()
-              );
+                    const matchesDate = 
+                        !filters.checkInDate || booking.checkInDate === filters.checkInDate;
 
-          const matchesStatus =
-            !filters.status ||
-            booking.status ===
-              filters.status;
+                    return (
+                        matchesSearch &&
+                        matchesStatus &&
+                        matchesDate 
+                    );
+                }
+            );
+        }, [bookings, filters]);
 
-          const matchesDate =
-            !filters.checkInDate ||
-            booking.checkInDate ===
-              filters.checkInDate;
-
-          return (
-            matchesSearch &&
-            matchesStatus &&
-            matchesDate
-          );
-        }
-      );
-    }, [bookings, filters]);
-
-  return {
-    filters,
-    filteredBookings,
-    updateFilter,
-    clearFilters,
-  };
+    return {
+        filters,
+        filteredBookings,
+        updateFilter,
+        clearFilter,
+    };
 };
