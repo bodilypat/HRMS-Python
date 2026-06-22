@@ -17,3 +17,4 @@ const BookingStatusBadge = ({ status }) => {
 };
 
 export default BookingStatusBadge;
+
