@@ -9,3 +9,4 @@ export const getRecentBooking = () =>
 
 export const getRevenue = () => 
     api.get("/dashboard/revenue");
+
