@@ -1,5 +1,4 @@
 //src/features/bookings/pages/Bookings.jsx
-
 import { Link } from "react-router-dom";
 import { useBookings } from "../hooks/useBookings";
 import BookingTable from "../components/BookingTable";
