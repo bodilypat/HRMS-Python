@@ -53,39 +53,30 @@ Fullstack-Hotel-Management-System/
 │   │   │   │   └── data/
 │   │   │   │       └── mockDashboardData.js
 │   │   │   ├── Rooms.jsx
-│   │   │   ├── Reservations.jsx
+│   │   │   ├── Bookings.jsx
 │   │   │   ├── Guests.jsx
-│   │   │   ├── CheckIn.jsx
-│   │   │   ├── CheckOut.jsx
 │   │   │   ├── Billing.jsx
-│   │   │   ├── Housekeeping.jsx 
 │   │   │   ├── Employees.jsx 
 │   │   │   ├── Reports.jsx
 │   │   │ 	└── Settings.jsx
-│   │   ├── routes/                               
-│   │   │   └── 
+│   │   │
 │   │   ├── services/
 │   │   │   ├── api.js 
-│   │   │   ├── roomService.jsx 
-│   │   │   ├── bookingService.jsx
-│   │   │ 	└── guestService.jsx
-│   │   │
+│   │   │   ├── authService.jsx 
+│   │   │ 	└── axiosInstance.jsx
 │   │   ├── hooks/                               
-│   │   │   ├── 
-│   │   │   ├── 
-│   │   │   └── 
+│   │   │   ├── useAuth.js
+│   │   │   └── useFetch.js
+│   │   ├── utils/                               
+│   │   │   ├── constants.js
+│   │   │   ├── validations.js
+│   │   │   ├── routes.js
+│   │   │   └── helpers.js
 │   │   ├── context/                                
 │   │   │   ├── AuthContext.jsx
-│   │   │   └── AppContext.jsx
-│   │   ├── utils/                               
-│   │   │   ├── 
-│   │   │   └── ...
-│   │   ├── constants/                                
-│   │   │   ├── 
-│   │   │   └── 
-│   │   ├── styles/                               
-│   │   │   ├── 
-│   │   │   └── 
+│   │   │   └── ThemeContext.jsx
+│   │   ├── router/                               
+│   │   │   └── AppRouter.jsx
 │   │   ├── App.jsx
 │   │   ├── main.jsx
 │   │   └── index.css
