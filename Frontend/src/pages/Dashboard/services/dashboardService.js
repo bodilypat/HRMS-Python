@@ -83,3 +83,4 @@ export async function getNotifications() {
     const data = await getDashboardData();
     return data.notifications;
 }
+
