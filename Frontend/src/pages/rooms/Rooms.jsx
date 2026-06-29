@@ -1,89 +1,96 @@
 //src/pages/Rooms/components/Rooms.jsx
-import React, { useState } from "react";
-import "./Rooms.css";
-
 import RoomTable from "./components/RoomTable";
 import RoomCard from "./components/RoomCard";
 import RoomForm from "./components/RoomForm";
 import RoomModal from "./components/RoomModal";
 import RoomFilter from "./components/RoomFilter";
-import RoomSearch from "./components/RoomSearch"
-import EmptyRooms from "./components/EmptyRoom";
+import RoomSearch from "./components/EmptyRooms";
 import RoomPagination from "./components/RoomPagination";
 
 import useRooms from "./hooks/useRooms";
 
 const Rooms = () => {
     const {
-        rooms,
-        loading, 
+        rooms = [],
+        loading,
         error,
         addRoom,
         updateRoom,
         deleteRoom,
-        refreshRooms
+        refreshRooms,
     } = useRooms();
 
     const [view, setView] = useState("table");
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowData] = useState(false);
     const [selectedRoom, setSelectedRoom] = useState(null);
 
     const [search, setSearch] = useState("");
-    const [filter, setfilter] = useState("all");
+    const [filter, setFilter] = useState("all");
 
-    const filteredRooms = rooms.filter(room => {
-        const matchesSearch = 
-            room.number 
-                ?.toString()
-                .include(search) ||
-            room.type 
-                ?.toLowerCase()
-                .includes(search.toLowerCase());
+    const filteredRooms = useMemo(() => {
+        return rooms.filter((room) => {
+            const matchesSearch = 
+                room.numberr?.toString().includes(search) || 
+                room.type?.toLowerCase().include(search.toLowerCase());
 
-        const matchesFilter = 
-            fitler == "all" || 
-            room.status === filter;
+            const matchesFilter = 
+                filter === "all" || room.status === filter;
 
             return matchesSearch && matchesFilter;
-    });
+        });
+    }, [rooms, search, filter]);
 
     const handleAdd = () => {
+        setSelectedRoom(null);
+        setShowModal(true);
+    };
+
+    const handleEdit = (room) => {
         setSelectedRoom(room);
         setShowModal(true);
     };
 
     const handleSubmit = async (data) => {
-        if(selectedRoom) {
-            await updateRoom(
-                selectedRoom.id, 
-                data 
-            ); 
-        } else {
-            await addRoom(data);
+        try {
+            if (selectedRoom) {
+                await updateRoom(selectedRoom.id, data);
+            } else {
+                await addRoom(data);
+            }
+
+            await refreshRooms();
+
+            setShowModal(false);
+            setSelectedRoom(null);
+        } catch (err) {
+            console.error(err);
         }
-        setShowModal(false);
     };
 
     const handleDelete = async (id) => {
-        const confirmDelete = 
-        window.confirm(
-            "Delete  this room?"
+        const confirmed = window.confirm(
+            "Are you sure you want to delete this room?"
         );
 
-        if(confirmDelete) {
+        if (!confirmed) return;
+
+        try {
             await deleteRoom(id);
+            await refreshRooms();
+        } catch (err) {
+            console.error(err);
         }
     };
-    
-    if(loading) {
+
+    if (loading) {
         return (
-            <div className="rooms-loading">
-                Loading rooms...
+            <div className="room-loading">
+                Load rooms...
             </div>
         );
     }
 
-    if(error) {
+    if (error) {
         return (
             <div className="rooms-error">
                 {error}
@@ -95,24 +102,23 @@ const Rooms = () => {
         <div className="rooms-page">
 
             {/* Header */}
-            <div className="rooms-header">
+            <header className="rooms-header">
                 <div>
                     <h1>Rooms</h1>
-
                     <p>Manage hotel rooms and availability</p>
                 </div>
 
                 <button 
-                    className="add-room-table"
+                    className="add-room-btn"
                     onClick={handleAdd}
                 >
-                    + Add Room 
+                    + Add Room
                 </button>
-            </div>
+            </header>
 
             {/* Toolbar */}
-            <div className="rooms-toolbar">
-                <RoomSearch 
+            <div className="room-toolbar">
+                <RoomSearch
                     value={search}
                     onChange={setSearch}
                 />
@@ -124,88 +130,74 @@ const Rooms = () => {
 
                 <div className="view-switch">
                     <button 
-                        className={
-                            view === "table"
-                            ? "active"
-                            : ""
-                        }
-                        onClick={() => 
-                        setView("table")
-                        }
+                        className={view === "table" ? "active" : ""}
+                        onClick={() => setView("table")}
                     >
                         Table
                     </button>
 
-                    <button
-                        className={
-                            view === "card"
-                            ? "active"
-                            : ""
-                        }
-                        onClick={() => 
-                            setView("card")
-                        }
+                    <button 
+                        className={view === "card" ? "active" : ""}
+                        onClick={() => setView("card")}
                     >
-                        Cards
+                        Cards 
                     </button>
                 </div>
             </div>
 
             {/* Content */}
-            {filteredRoom.length === 0 ? (
+            {filteredRooms.length === 0 ? (
                 <EmptyRooms />
             ) : view === "table" ? (
                 <RoomTable 
-                    rooms={filteredRoom}
+                    rooms={filteredRooms}
                     onEdit={handleEdit}
                     onDelete={handleDelete}
                 />
             ) : (
-                
                 <div className="room-grid">
-                    {filteredRooms.map(room => (
+                    {filteredRooms.map((room) => (
                         <RoomCard 
                             key={room.id}
                             room={room}
                             onEdit={handleEdit}
                             onDelete={handleDelete}
                         />
-                    ))
-                }
-            </div>
-            )
-        }
+                    ))}
+                </div>
+            )}
 
-        {/* Pagination */}
-        <RoomPagination
-            total={filteredRooms.length}
-        />
+            {/* Pagination */}
+            <RoomPagination 
+                total={filteredRooms.length}
+            />
 
-        {/* Modal */}
-        {showModal && (
-            <RoomModal 
-                title={
-                    selectedRoom 
-                    ? "Edit Room"
-                    : "Add Room"
-                }
-                onClose={() =>
-                    setShowModal(false)
-                }
-            >
-                <RoomForm 
-                    room={selectedRoom}
-                    onSubmit={handleSubmit}
-                    onCancel={() =>
-                        setShowModal(false)
+            {/* Modal */}
+            {showModal && (
+                <RoomModal 
+                    title={
+                        selectedRoom 
+                            ? "Edit Room"
+                            : "Add Room"
                     }
-                />
-
-            </RoomModal>
-        )
-        }
-    </div>
+                    onClose={() => {
+                        setShowModal(false);
+                        setSelectedRoom(null);
+                    }}
+                >
+                    <RoomForm 
+                        room={selectedRoom}
+                        onSubmit={handleSubmit}
+                        onCancel={() => {
+                            setShowModal(false);
+                            setSelectedRoom(null);
+                        }}
+                    />
+                </RoomModal>
+            )}
+        </div>
     );
-
 };
-export default rooms;
+
+export default Rooms;
+
