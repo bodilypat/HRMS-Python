@@ -24,3 +24,4 @@ export const DEFAULT_ROOM = {
     price: 0,
     description: "",
 };
+
