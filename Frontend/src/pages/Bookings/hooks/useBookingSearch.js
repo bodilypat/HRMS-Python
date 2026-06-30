@@ -42,3 +42,4 @@ const useBookingSearch = (bookings = []) => {
 };
 
 export default useBookingSearch;
+
