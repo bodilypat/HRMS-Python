@@ -1,68 +1,88 @@
 //src/pages/Rooms/hooks/useRooms.js 
-import { useEffect, useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import * as roomService from "../services/roomService";
 
-const loadRooms = () => {
+const useRooms = () => {
     const [rooms, setRooms] = useState([]);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState(null);
 
-    const loadRooms = async () => {
+    // all all rooms 
+    const loadRooms = useCallback(async () => {
         try {
             setLoading(true);
-            setError(null);
+            setError9null;
 
             const data = await roomService.getRooms();
-            setrooms(data);
+            setRooms(data);
         } catch (err) {
-            setError(err.message || "Failed to load rooms");
+            setError(err.message || "Failed to load rooms.");
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
     useEffect(() => {
         loadRooms();
-    }, []);
+    }, [loadRooms]);
 
-    const addRoom = async (room) => {
+    // Create room
+    const addRoom = async (roomData) => {
         try {
-            setSaving(true);
+            setService(true);
+            setError(null);
 
-            const newRoom = await roomService.createRoom(room);
+            const newRoom = await roomService.createRoom(roomData);
 
-            setRooms((prev) => [...prev, newRoom]);
+            setRooms((prev) => [...prev, newRoo]);
 
             return newRoom;
+        } catch (err) {
+            setError(err.message || "Failed to add room.");
+            throw err;
         } finally {
-            setServing(false);
+            setService(false);
         }
     };
 
-    const updateRoom = async (id, updateRoom) => {
+    // update room 
+    const updateRoom = async(id, roomData) => {
         try {
             setSaving(true);
+            setError(null);
 
-            const room = await roomService.updateRoom(id, updateRoom);
+            const updateRoom = await roomService.updateRoom(id, roomData);
 
-            setRooms((prev) =>
-                prev.map((item) => (item.id === id ? room : item))
+            setRooms((prev) => 
+                prev.map((room) => 
+                    room.id === id ? updateRoom : room 
+                )
             );
 
-            return room;
+            return updateRoom;
+        } catch (err) {
+            setError(err.message || "Failed to update room.");
+            throw err;
         } finally {
-            setSaving(false);
+            setService(false);
         }
     };
 
+    // Delete room 
     const deleteRoom = async (id) => {
         try {
             setSaving(true);
+            setError(null);
 
             await roomService.deleteRoom(id);
 
-            setRooms((prev) => prev.filter((room) => room.id !== id));
+            setRooms((prev) => 
+                prev.fitler((room) => room.id !== id) 
+            );
+        } catch (err) {
+            setError(err.message || "Failed to delete room.");
+            throw err; 
         } finally {
             setSaving(false);
         }
@@ -73,7 +93,7 @@ const loadRooms = () => {
         loading,
         saving,
         error,
-        reload: loadRooms,
+        reloadRooms: loadRooms,
         addRoom,
         updateRoom,
         deleteRoom,
@@ -82,4 +102,5 @@ const loadRooms = () => {
 };
 
 export default useRooms;
+
 
