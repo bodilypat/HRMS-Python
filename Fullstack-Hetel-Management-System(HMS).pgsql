@@ -26,7 +26,24 @@ Fullstack-Hotel-Management-System/
 │   │   │ 	└── Table/
 │   │   │
 │   │   ├── pages/
-│   │   │   ├── Login.jsx
+│   │   │   ├── Login/
+│   │   │	│   ├── Login.jsx              # main page
+│   │   │ 	│   ├── Login.css
+│   │   │ 	│   ├── index.js 
+│   │   │ 	│   ├── components/
+│   │   │	│   │   ├── LoginForm.jsx
+│   │   │	│   │   ├── LoginHeader.jsx 
+│   │   │	│   │   ├── PasswordInput.jsx 
+│   │   │   │   │   └── RememberMe.jsx
+│   │   │ 	│   ├── hooks/
+│   │   │   │   │   └── useLogin.js
+│   │   │ 	│   ├── services/
+│   │   │   │   │   └── authService.js
+│   │   │ 	│   ├── utils/
+│   │   │	│   │   ├── validators.js
+│   │   │   │   │   └── authHelpers.js
+│   │   │   │   └── data/
+│   │   │   │       └── mockUserData.js
 │   │   │   ├── Dashboard/
 │   │   │	│   ├── Dashboard.jsx              # main page
 │   │   │ 	│   ├── Dashboard.css
@@ -41,7 +58,8 @@ Fullstack-Hotel-Management-System/
 │   │   │	│   │   ├── CheckInList.jsx 
 │   │   │	│   │   ├── CheckOutList.jsx 
 │   │   │	│   │   ├── QuickActions.jsx
-│   │   │   │   │   └── Notifications.jsx
+│   │   │	│   │   ├── Notifications.jsx
+│   │   │   │   │   └── Layout.css
 │   │   │ 	│   ├── hooks/
 │   │   │   │   │   └── useDashboard.js
 │   │   │ 	│   ├── services/
@@ -52,31 +70,191 @@ Fullstack-Hotel-Management-System/
 │   │   │   │   │   └── dashboardHelpers.js
 │   │   │   │   └── data/
 │   │   │   │       └── mockDashboardData.js
-│   │   │   ├── Rooms.jsx
-│   │   │   ├── Bookings.jsx
-│   │   │   ├── Guests.jsx
-│   │   │   ├── Billing.jsx
-│   │   │   ├── Employees.jsx 
-│   │   │   ├── Reports.jsx
-│   │   │ 	└── Settings.jsx
+│   │   │   ├── Rooms/
+│   │   │	│   ├── Rooms.jsx              # main page
+│   │   │ 	│   ├── Rooms.css
+│   │   │ 	│   ├── index.js 
+│   │   │ 	│   ├── components/
+│   │   │	│   │   ├── RoomTable.jsx
+│   │   │	│   │   ├── RoomCard.jsx
+│   │   │	│   │   ├── RoomForm.jsx 
+│   │   │	│   │   ├── RoomModal.jsx 
+│   │   │	│   │   ├── RoomFilter.jsx 
+│   │   │	│   │   ├── RoomSearch.jsx 
+│   │   │	│   │   ├── RoomStatusBadge.jsx 
+│   │   │	│   │   ├── RoomAvailability.jsx 
+│   │   │	│   │   ├── RoomActions.jsx 
+│   │   │	│   │   ├── RoomDetails.jsx 
+│   │   │	│   │   ├── RoomTypeSelect.jsx 
+│   │   │	│   │   ├── RoomPagination.jsx
+│   │   │	│   │   ├── EmptyRooms.jsx 
+│   │   │	│   │   ├── DeleteRoomDialog.jsx
+│   │   │   │   │   └── RoomStyles.css
+│   │   │ 	│   ├── hooks/
+│   │   │	│   │   ├── useRooms.js 
+│   │   │	│   │   ├── useRoomFilter.js
+│   │   │   │   │   └── useRoomSearch.js
+│   │   │ 	│   ├── services/
+│   │   │   │   │   └── roomService.js
+│   │   │ 	│   ├── utils/
+│   │   │	│   │   ├── roomHelpers.js 
+│   │   │	│   │   ├── roomValidators.js
+│   │   │   │   │   └── roomConstants.js 
+│   │   │   │   └── data/
+│   │   │   │       └── mockRoomsData.js 
+│   │   │   ├── Bookings/
+│   │   │	│   ├── Bookings.jsx              # main page
+│   │   │ 	│   ├── Bookings.css
+│   │   │ 	│   ├── index.js 
+│   │   │ 	│   ├── components/
+│   │   │	│   │   ├── BookingTable.jsx 
+│   │   │	│   │   ├── BookingCard.jsx 
+│   │   │	│   │   ├── BookingModal.jsx 
+│   │   │	│   │   ├── BookingFilter.jsx 
+│   │   │	│   │   ├── BookingSearch.jsx 
+│   │   │	│   │   ├── BookingStatusBadge.jsx 
+│   │   │	│   │   ├── BookingDetails.jsx 
+│   │   │	│   │   ├── BookingActions.jsx
+│   │   │	│   │   ├── BookingPagination.jsx 
+│   │   │	│   │   ├── BookingCalendar.jsx 
+│   │   │	│   │   ├── CheckInDialog.jsx 
+│   │   │	│   │   ├── CheckOutDialog.jsx
+│   │   │   │   │   └── DeleteBookingDialog.jsx 
+│   │   │ 	│   ├── hooks/
+│   │   │	│   │   ├── useBooking.js 
+│   │   │	│   │   ├── useBookingSearch.js
+│   │   │   │   │   └── useBookingFilter.js
+│   │   │ 	│   ├── services/
+│   │   │   │   │   └── bookingService.js
+│   │   │ 	│   ├── utils/
+│   │   │	│   │   ├── bookingHelpers.js
+│   │   │	│   │   ├── bookingValidators.js
+│   │   │   │   │   └── bookingConstants.js
+│   │   │   │   └── data/
+│   │   │   │       └── mockBookingData.js
+│   │   │   ├── Guests/
+│   │   │	│   ├── Guests.jsx              # main page
+│   │   │ 	│   ├── Guests.css
+│   │   │ 	│   ├── index.js 
+│   │   │ 	│   ├── components/
+│   │   │	│   │   ├── GuestTable.jsx 
+│   │   │	│   │   ├── GuestCard.jsx 
+│   │   │	│   │   ├── GuestForm.jsx 
+│   │   │	│   │   ├── GuestModal.jsx 
+│   │   │	│   │   ├── GuestSearch.jsx 
+│   │   │	│   │   ├── GuestFilter.jsx 
+│   │   │	│   │   ├── GuestProfile.jsx 
+│   │   │	│   │   ├── GuestHistory.jsx 
+│   │   │	│   │   ├── GuestActions.jsx 
+│   │   │	│   │   ├── GuestPagination.jsx
+│   │   │	│   │   ├── LoyaltyBadge.jsx
+│   │   │   │   │   └── DeleteGuestDialog.jsx
+│   │   │ 	│   ├── hooks/
+│   │   │	│   │   ├── useGuest.js
+│   │   │	│   │   ├── useGuestFilter.js 
+│   │   │   │   │   └── useGuestSearch.js
+│   │   │ 	│   ├── services/
+│   │   │   │   │   └── guestService.js
+│   │   │ 	│   ├── utils/
+│   │   │	│   │   ├── guestHelper.js
+│   │   │	│   │   ├── guestValidators.js
+│   │   │   │   │   └── guestConstants.js
+│   │   │   │   └── data/
+│   │   │   │       └── mockGuestDate.js
+│   │   │   ├── Billing/
+│   │   │	│   ├── Billing.jsx              # main page
+│   │   │ 	│   ├── Billings.css
+│   │   │ 	│   ├── index.js 
+│   │   │ 	│   ├── components/
+│   │   │	│   │   ├── 
+│   │   │   │   │   └── 
+│   │   │ 	│   ├── hooks/
+│   │   │   │   │   └── 
+│   │   │ 	│   ├── services/
+│   │   │   │   │   └── 
+│   │   │ 	│   ├── utils/
+│   │   │	│   │   ├── 
+│   │   │	│   │   ├── 
+│   │   │   │   │   └── 
+│   │   │   │   └── data/
+│   │   │   │       └── 
+│   │   │   ├── Employees/
+│   │   │	│   ├── Employees.jsx              # main page
+│   │   │ 	│   ├── Employees.css
+│   │   │ 	│   ├── index.js 
+│   │   │ 	│   ├── components/
+│   │   │	│   │   ├── 
+│   │   │   │   │   └── 
+│   │   │ 	│   ├── hooks/
+│   │   │   │   │   └── 
+│   │   │ 	│   ├── services/
+│   │   │   │   │   └── 
+│   │   │ 	│   ├── utils/
+│   │   │	│   │   ├── 
+│   │   │	│   │   ├── 
+│   │   │   │   │   └── 
+│   │   │   │   └── data/
+│   │   │   │       └──  
+│   │   │   ├── Reports/
+│   │   │	│   ├── Reports.jsx              # main page
+│   │   │ 	│   ├── Reports.css
+│   │   │ 	│   ├── index.js 
+│   │   │ 	│   ├── components/
+│   │   │	│   │   ├── 
+│   │   │   │   │   └── 
+│   │   │ 	│   ├── hooks/
+│   │   │   │   │   └── 
+│   │   │ 	│   ├── services/
+│   │   │   │   │   └── 
+│   │   │ 	│   ├── utils/
+│   │   │	│   │   ├── 
+│   │   │	│   │   ├── 
+│   │   │   │   │   └── 
+│   │   │   │   └── data/
+│   │   │   │       └── 
+│   │   │ 	└── Settings/
+│   │   │	    ├── Settings.jsx              # main page
+│   │   │ 	    ├── Settings.css
+│   │   │ 	    ├── index.js 
+│   │   │ 	    ├── components/
+│   │   │	    │   ├── 
+│   │   │       │   └── 
+│   │   │ 	    ├── hooks/
+│   │   │       │   └── 
+│   │   │ 	    ├── services/
+│   │   │       │   └── 
+│   │   │ 	    ├── utils/
+│   │   │	    │   ├── 
+│   │   │	    │   ├── 
+│   │   │       │   └── 
+│   │   │       └── data/
+│   │   │           └── 
 │   │   │
 │   │   ├── services/
 │   │   │   ├── api.js 
-│   │   │   ├── authService.jsx 
-│   │   │ 	└── axiosInstance.jsx
+│   │   │   ├── authService.js
+│   │   │   ├── dashboardService.js
+│   │   │   ├── roomService.js 
+│   │   │   ├── bookingService.js
+│   │   │   ├── guestService.js 
+│   │   │ 	└── paymentService.js
 │   │   ├── hooks/                               
 │   │   │   ├── useAuth.js
-│   │   │   └── useFetch.js
-│   │   ├── utils/                               
+│   │   │   ├── useFetch.js
+│   │   │   └── usePagination.js
+│   │   ├── utils/        
+│   │   │   ├── formatCurrency.js                       
 │   │   │   ├── constants.js
-│   │   │   ├── validations.js
-│   │   │   ├── routes.js
+│   │   │   ├── validators.js
+│   │   │   ├── formatDate.js
 │   │   │   └── helpers.js
 │   │   ├── context/                                
 │   │   │   ├── AuthContext.jsx
-│   │   │   └── ThemeContext.jsx
-│   │   ├── router/                               
-│   │   │   └── AppRouter.jsx
+│   │   │   ├── ThemeContext.jsx
+│   │   │   └── NotificationContext.jsx
+│   │   ├── router/             
+│   │   │   ├── AppRoutes.jsx                  
+│   │   │   └── PrivateRoute.jsx
 │   │   ├── App.jsx
 │   │   ├── main.jsx
 │   │   └── index.css
