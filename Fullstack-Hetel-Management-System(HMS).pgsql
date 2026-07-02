@@ -108,7 +108,7 @@ Fullstack-Hotel-Management-System/
 │   │   │ 	│   ├── index.js 
 │   │   │ 	│   ├── components/
 │   │   │	│   │   ├── BookingTable.jsx 
-│   │   │	│   │   ├── BookingCard.jsx 
+│   │   │	│   │   ├── BookingCard.jsx                                                                                                                                                                                                                                       
 │   │   │	│   │   ├── BookingModal.jsx 
 │   │   │	│   │   ├── BookingFilter.jsx 
 │   │   │	│   │   ├── BookingSearch.jsx 
@@ -119,7 +119,10 @@ Fullstack-Hotel-Management-System/
 │   │   │	│   │   ├── BookingCalendar.jsx 
 │   │   │	│   │   ├── CheckInDialog.jsx 
 │   │   │	│   │   ├── CheckOutDialog.jsx
-│   │   │   │   │   └── DeleteBookingDialog.jsx 
+│   │   │	│   │   ├── DeleteBookingDialog.jsx
+│   │   │	│   │   ├── BookingSummary.jsx 
+│   │   │	│   │   ├── BookingForm.jsx
+│   │   │   │   │   └── BookingStyles.css  
 │   │   │ 	│   ├── hooks/
 │   │   │	│   │   ├── useBooking.js 
 │   │   │	│   │   ├── useBookingSearch.js
